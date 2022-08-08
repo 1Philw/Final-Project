@@ -17,6 +17,7 @@ const CLIENT_DEV_URL = "http://localhost:3000";
 const SERVER_DEV_URL = "http://localhost:8000";
 const fetch = require("node-fetch");
 const morgan = require("morgan");
+const { addUser } = require("../../Handlers/mongodb");
 // const { putNotes, deleteNotes, getNotes } = require("../../handlers");
 const RAWG_TOKEN = process.env.RAWG_TOKEN;
 const API_KEY = process.env.API_KEY;
@@ -171,9 +172,7 @@ app.get("/logout", function (req, res) {
 // See views/auth.js for authentication routes
 app.use("/auth", authRoutes);
 
-// app.listen(process.env.PORT || 5000); <- Heroku
 app.listen(process.env.PORT || 8000);
-// Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
 //   the request is authenticated (typically via a persistent login session),
 //   the request will proceed.  Otherwise, the user will be redirected to the
@@ -203,7 +202,7 @@ app.get(
   }
 );
 
-// app.get("/user", createUserFunction);
+app.post("/user", addUser);
 // app.delete('/user', ...)
 
 app.get("*", (req, res) => {

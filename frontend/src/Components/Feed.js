@@ -5,15 +5,15 @@ import styled from "styled-components";
 const Feed = () => {
   const { feed, setFeed, games, setGames } = useContext(HomepageContext);
 
-  const imgs = feed.results.map((img) => {
-    return img.image_background;
-  });
+  // const imgs = feed.results.map((img) => {
+  //   return img.image_background;
+  // });
 
-  const genres = games.results.map((genre) => genre.genres);
+  // const genres = games.results.map((genre) => genre.genres);
 
   // console.log(imgs);
-  console.log(feed.results);
-  console.log(genres);
+  // console.log(feed.results);
+  // console.log(genres);
   // {imgs.map((image) => {
   //   return <img src={image} />;
   // })}
