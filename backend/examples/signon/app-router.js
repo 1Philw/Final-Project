@@ -1,3 +1,14 @@
+"use strict";
+const { MongoClient } = require("mongodb");
+
+require("dotenv").config();
+const { MONGO_URI } = process.env;
+
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+
 /**
  * Basic example demonstrating passport-steam usage within Express framework
  * This example uses Express's router to separate the steam authentication routes
@@ -49,11 +60,42 @@ passport.use(
     },
     function (identifier, profile, done) {
       // asynchronous verification, for effect...
-      process.nextTick(function () {
+      // console.log(profile, "profile");
+      process.nextTick(async () => {
         // To keep the example simple, the user's Steam profile is returned to
         // represent the logged-in user.  In a typical application, you would want
         // to associate the Steam account with a user record in your database,
         // and return that user instead.
+        let result = null;
+        const client = new MongoClient(MONGO_URI, options);
+        try {
+          await client.connect();
+
+          const db = client.db("final");
+          console.log("Connected!");
+
+          result = await db
+            .collection("users")
+            .findOne({ _id: profile._json.steamid });
+          console.log("Success");
+          if (!result) {
+            await db.collection("users").insertOne({
+              _id: profile._json.steamid,
+              user: profile._json.personaname,
+              profile: profile._json.profileurl,
+              avatar: profile._json.avatar,
+              comments: [],
+              likes: [],
+            });
+          }
+        } catch (err) {
+          console.log(err.stack, err.message);
+        } finally {
+          client.close();
+          console.log("Disconnected");
+        }
+        profile.comments = result.comments;
+        profile.likes = result.likes;
 
         profile.identifier = identifier;
         return done(null, profile);
@@ -102,6 +144,7 @@ app.get("/test", function (req, res) {
 app.get("/account", ensureAuthenticated, function (req, res) {
   // res.render('account', { user: req.user });
   // res.status(200).json({user: req.user})
+  // console.log("hellooo");
   fetch(
     // gets the list of games owned with info by the User
     `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${API_KEY}&steamid=${req.user._json.steamid}&format=json&include_appinfo=1&include_played_free_games=1`,
