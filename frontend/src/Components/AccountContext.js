@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Account from "./Account";
-import GlobalStyles from "./GlobalStyles";
-import Header from "./Header";
-import Homepage from "./Homepage";
+import { createContext, useEffect, useState } from "react";
+import Error from "./Error";
 
-const App = () => {
+export const AccountContext = createContext();
+
+export const AccountProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [usersGames, setUsersGames] = useState({});
   const [userStatus, setUserStatus] = useState("");
@@ -33,22 +31,27 @@ const App = () => {
     };
     fetchFunc();
   }, [setUser]);
+
+  if (userStatus === "Error") {
+    return <Error />;
+  }
+
+  // if (user === null) {
+  //   return <>Loading</>;
+  // }
+
   return (
-    <>
-      <Router>
-        <GlobalStyles />
-        <Header user={user} usersGames={usersGames} />
-        <Routes>
-          <Route exact path="/" element={<Homepage />} />
-          <Route
-            exact
-            path="/account"
-            element={<Account user={user} usersGames={usersGames} />}
-          />
-        </Routes>
-      </Router>
-    </>
+    <AccountContext.Provider
+      value={{
+        user,
+        setUser,
+        usersGames,
+        setUsersGames,
+        userStatus,
+        setUserStatus,
+      }}
+    >
+      {children}
+    </AccountContext.Provider>
   );
 };
-
-export default App;

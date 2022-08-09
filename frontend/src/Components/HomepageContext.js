@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import Error from "./Error";
 
 export const HomepageContext = createContext();
 
@@ -7,7 +8,7 @@ export const HomepageProvider = ({ children }) => {
   const [feedStatus, setFeedStatus] = useState("Loading");
   const [games, setGames] = useState(null);
   const [gamesStatus, setGamesStatus] = useState("Loading");
-
+  // Fetch for getting data regarding all of my gaming plateforms.
   useEffect(() => {
     const fetchFunc = async () => {
       try {
@@ -24,7 +25,7 @@ export const HomepageProvider = ({ children }) => {
     };
     fetchFunc();
   }, []);
-
+  // Fetch for getting a list of all my available games.
   useEffect(() => {
     const fetchGames = async () => {
       try {
@@ -43,7 +44,7 @@ export const HomepageProvider = ({ children }) => {
   }, []);
 
   if (feedStatus === "Error" || gamesStatus === "Error") {
-    return <>Error please try again.</>;
+    return <Error />;
   }
 
   if (feed === null || games === null) {

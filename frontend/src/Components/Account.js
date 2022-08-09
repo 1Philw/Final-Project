@@ -31,7 +31,24 @@ const Account = () => {
     );
   }
 
-  return <div>hello user</div>;
+  return <div>hello {user.displayName}</div>;
 };
 
 export default Account;
+
+// import { useContext } from "react";
+// import { AccountContext } from "./AccountContext";
+
+// const Account = () => {
+//   const { user, setUser } = useContext(AccountContext);
+//   const { usersGames, setUsersGames } = useContext(AccountContext);
+
+//   return (
+//     <>
+//       <div>Hello {user.displayName}</div>
+//       <div></div>
+//     </>
+//   );
+// };
+
+// export default Account;

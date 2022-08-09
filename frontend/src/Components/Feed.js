@@ -42,6 +42,7 @@ const Feed = () => {
 
 const Wrapper = styled.div`
   display: flex;
+  justify-content: center;
   gap: 12px;
 `;
 
