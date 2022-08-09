@@ -23,16 +23,16 @@ const Feed = () => {
       <Wrapper>
         {feed.results.slice(0, 6).map((plateform, index) => {
           return (
-            <div key={index}>
+            <Container key={index}>
               <Plateforms>{plateform.name}</Plateforms>
               {feed.results.map((games) => {
                 if (games.name === plateform.name) {
                   return games.games.map((game, index) => {
-                    return <div key={index}>{game.name}</div>;
+                    return <GnameDiv key={index}>{game.name}</GnameDiv>;
                   });
                 }
               })}
-            </div>
+            </Container>
           );
         })}
       </Wrapper>
@@ -75,5 +75,9 @@ const Plateforms = styled.button`
     transform-origin: left;
   }
 `;
+
+const Container = styled.div``;
+
+const GnameDiv = styled.div``;
 
 export default Feed;

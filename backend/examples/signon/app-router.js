@@ -72,7 +72,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 
 app.use(
   session({
-    secret: "your secret", // TODO: Use with Databases
+    secret: "your secret",
     name: "loginToken",
     resave: true,
     saveUninitialized: true,

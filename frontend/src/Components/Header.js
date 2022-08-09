@@ -11,39 +11,29 @@ const Header = ({ user, usersGames = [] }) => {
   if (!user) {
     return (
       <>
-        <Title onClick={() => nav("/")}>Welcome to Echelon Gaming</Title>
-        <Wrapper>
-          <Auth href="http://localhost:8000/auth/steam">
-            <FaSignInAlt /> Sign-in
-          </Auth>
-          <Select>
-            <Option>Genres</Option>
-            <Option>Adventure</Option>
-            <Option>Action</Option>
-            <Option>Family</Option>
-            <Option>Indie</Option>
-            <Option>Massively Multiplayer</Option>
-            <Option>Puzzle</Option>
-            <Option>RPG</Option>
-            <Option>Shooter</Option>
-            <Option>Simulation</Option>
-            <Option>Sports</Option>
-            <Option>Strategy</Option>
-          </Select>
-        </Wrapper>
+        <Container>
+          <Title onClick={() => nav("/")}>Welcome to Echelon Gaming</Title>
+          <Wrapper>
+            <Auth href="http://localhost:8000/auth/steam">
+              <FaSignInAlt /> Sign-in
+            </Auth>
+          </Wrapper>
+        </Container>
       </>
     );
   } else
     return (
       <>
-        <Title onClick={() => nav("/")}>Welcome to Echelon Gaming</Title>
-        <Wrapper>
-          <Auth href="http://localhost:8000/logout">
-            <FaSignInAlt /> Sign-out
-          </Auth>
-          <SearchBar usersGames={usersGames} />
-          <Button onClick={() => nav("/account")}>Profile</Button>
-        </Wrapper>
+        <Container>
+          <Title onClick={() => nav("/")}>Welcome to Echelon Gaming</Title>
+          <Wrapper>
+            <Auth href="http://localhost:8000/logout">
+              <FaSignInAlt /> Sign-out
+            </Auth>
+            <SearchBar usersGames={usersGames} />
+            <Button onClick={() => nav("/account")}>Profile</Button>
+          </Wrapper>
+        </Container>
       </>
     );
 };
@@ -55,15 +45,8 @@ const Wrapper = styled.div`
   padding-bottom: 25px;
 `;
 
-const Select = styled.select``;
-
-const Option = styled.option`
-  background-color: #ff6700;
-  color: black;
-`;
-
 const Title = styled.h1`
-  margin-top: 12px;
+  padding-top: 20px;
   cursor: pointer;
 `;
 
@@ -94,8 +77,8 @@ const Auth = styled.a`
 `;
 
 const Button = styled.button`
-  background-color: #212120;
   border: none;
+  background: none;
   font-weight: bold;
   font-size: medium;
   align-items: center;
@@ -119,5 +102,7 @@ const Button = styled.button`
     transform-origin: left;
   }
 `;
+
+const Container = styled.div``;
 
 export default Header;

@@ -23,7 +23,7 @@ const addUser = async (req, res) => {
 
     const result = await db
       .collection("users")
-      .insertOne({ _id: uuidv4(), user: req.body });
+      .insertOne({ _id: _json.steamid, user: req.body.displayName });
     console.log("Success");
     return result
       ? res
