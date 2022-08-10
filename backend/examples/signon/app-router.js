@@ -167,7 +167,7 @@ app.get("/account", ensureAuthenticated, function (req, res) {
 app.get("/game/:name/:id", function (req, res) {
   const { name, id } = req.params;
   fetch(
-    `https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=${id}&format=json`,
+    `https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=${id}&format=json`,
     {
       // note
       method: "GET",
@@ -188,7 +188,7 @@ app.get("/game/:name/:id/stats/:userId", function (req, res) {
     const { name, id, userId } = req.params;
 
     fetch(
-      `https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?key=${API_KEY}&steamid=${userId}&appid=${id}`,
+      `https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?key=${API_KEY}&steamid=${userId}&appid=${id}`,
       {
         method: "GET",
         credentials: "include",

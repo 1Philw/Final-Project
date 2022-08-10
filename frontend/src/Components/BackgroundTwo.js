@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import colorful from "../../src/Images/colorful-dark.jpg";
+import colorful from "../../src/Images/colorful-dark-2.jpg";
 
-const Background = () => {
+const BackgroundTwo = () => {
   return <Image />;
 };
 
@@ -14,4 +14,4 @@ const Image = styled.div`
   height: 100%;
 `;
 
-export default Background;
+export default BackgroundTwo;

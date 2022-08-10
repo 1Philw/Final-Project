@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 
 const Header = ({ user, usersGames = [] }) => {
-  console.log(user);
-
   const nav = useNavigate();
 
   if (!user) {
@@ -30,7 +28,7 @@ const Header = ({ user, usersGames = [] }) => {
             <Auth href="http://localhost:8000/logout">
               <FaSignInAlt /> Sign-out
             </Auth>
-            <SearchBar usersGames={usersGames} />
+            <SearchBar usersGames={usersGames} user={user} />
             <Button onClick={() => nav("/account")}>Profile</Button>
           </Wrapper>
         </Container>

@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const SearchBar = ({ usersGames }) => {
+const SearchBar = ({ usersGames, user }) => {
   const [value, setValue] = useState("");
+
+  const nav = useNavigate();
+  // console.log(user);
 
   const gamesmap = usersGames.games.map((result) => {
     return result;
@@ -12,8 +16,12 @@ const SearchBar = ({ usersGames }) => {
     return games.name.toLowerCase().includes(value.toLowerCase());
   });
 
+  const id = gamesmap.map((ids) => {
+    return ids.appid;
+  });
+
   const handleSelect = (matchedGame) => {
-    window.alert(matchedGame);
+    nav(matchedGame);
   };
 
   return (

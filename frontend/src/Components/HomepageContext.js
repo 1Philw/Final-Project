@@ -30,10 +30,10 @@ export const HomepageProvider = ({ children }) => {
     const fetchGames = async () => {
       try {
         const res = await fetch(
-          "https://api.rawg.io/api/games?key=2e06ccaa17a44ac6bd7b391b815b90c1&dates=2019-09-01,2019-09-30&platforms=18,1,7"
+          "https://api.rawg.io/api/games?key=2e06ccaa17a44ac6bd7b391b815b90c1&dates=2019-09-01,2022"
         );
         const data = await res.json();
-        // console.log(data);
+        console.log(data);
         setGames(data);
         setGamesStatus("Idle");
       } catch (err) {

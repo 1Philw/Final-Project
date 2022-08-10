@@ -33,7 +33,7 @@ const Account = () => {
   }
 
   const games = usersGames.games.map((result) => result.name);
-  console.log(games);
+  // console.log(games);
   return (
     <>
       <Wrapper>
@@ -44,7 +44,6 @@ const Account = () => {
           </div>
         </TopWrapper>
         <OwnedGames>Games owned {usersGames.game_count}</OwnedGames>
-        <Games>{games}</Games>
       </Wrapper>
     </>
   );
@@ -64,9 +63,5 @@ const OwnedGames = styled.div`
 `;
 
 const UserImg = styled.img``;
-
-const Games = styled.div`
-  padding: 12px;
-`;
 
 export default Account;
