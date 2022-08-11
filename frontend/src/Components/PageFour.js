@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import Error from "./Error";
 import FeedIcons from "./FeedIcons";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 
-const PageTwo = () => {
-  const [gamesTwo, setGamesTwo] = useState(null);
+const PageFour = () => {
+  const [gamesFour, setGamesFour] = useState(null);
   const [load, setLoad] = useState("Loading");
-  let nav = useNavigate();
 
   // Fetching instead of using Context due to backend/error.
   const [user, setUser] = useState(null);
@@ -37,27 +35,27 @@ const PageTwo = () => {
   }, [setUser]);
 
   useEffect(() => {
-    const fetchFuncTwo = async () => {
+    const fetchFunc = async () => {
       try {
         const res = await fetch(
-          "https://api.rawg.io/api/games?dates=2019-09-01%2C2022&key=2e06ccaa17a44ac6bd7b391b815b90c1&page=2"
+          "https://api.rawg.io/api/games?dates=2019-09-01%2C2022&key=2e06ccaa17a44ac6bd7b391b815b90c1&page=4"
         );
-        const pageTwo = await res.json();
-        // console.log(pageTwo);
-        setGamesTwo(pageTwo);
+        const pageThree = await res.json();
+        // console.log(pageThree);
+        setGamesFour(pageThree);
         setLoad("Idle");
       } catch (err) {
         setLoad("Error");
       }
     };
-    fetchFuncTwo();
+    fetchFunc();
   }, []);
 
   if (load === "Error") {
     return <Error />;
   }
 
-  if (gamesTwo === null) {
+  if (gamesFour === null) {
     return <>Loading</>;
   }
 
@@ -79,7 +77,7 @@ const PageTwo = () => {
           </GeneralInfo>
           <GamesWrapper>
             <Gamelists>
-              {gamesTwo.results.map((games, index) => {
+              {gamesFour.results.map((games, index) => {
                 // console.log(games);
                 return (
                   <Result key={index}>
@@ -90,7 +88,7 @@ const PageTwo = () => {
             </Gamelists>
           </GamesWrapper>
           <NextList>
-            <Next onClick={() => nav("/pagethree")}>Next</Next>
+            <Next>Next</Next>
           </NextList>
         </FullWrap>
       </>
@@ -113,7 +111,7 @@ const PageTwo = () => {
           </GeneralInfo>
           <GamesWrapper>
             <Gamelists>
-              {gamesTwo.results.map((games, index) => {
+              {gamesFour.results.map((games, index) => {
                 // console.log(games);
                 return (
                   <Result key={index}>
@@ -125,7 +123,7 @@ const PageTwo = () => {
             </Gamelists>
           </GamesWrapper>
           <NextList>
-            <Next onClick={() => nav("/pagethree")}>Next</Next>
+            <Next>Next</Next>
           </NextList>
         </FullWrap>
       </>
@@ -242,4 +240,4 @@ const FullWrap = styled.div`
   background-color: #212120;
 `;
 
-export default PageTwo;
+export default PageFour;

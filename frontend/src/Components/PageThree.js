@@ -4,8 +4,8 @@ import FeedIcons from "./FeedIcons";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-const PageTwo = () => {
-  const [gamesTwo, setGamesTwo] = useState(null);
+const PageThree = () => {
+  const [gamesThree, setGamesThree] = useState(null);
   const [load, setLoad] = useState("Loading");
   let nav = useNavigate();
 
@@ -40,11 +40,11 @@ const PageTwo = () => {
     const fetchFuncTwo = async () => {
       try {
         const res = await fetch(
-          "https://api.rawg.io/api/games?dates=2019-09-01%2C2022&key=2e06ccaa17a44ac6bd7b391b815b90c1&page=2"
+          "https://api.rawg.io/api/games?dates=2019-09-01%2C2022&key=2e06ccaa17a44ac6bd7b391b815b90c1&page=3"
         );
-        const pageTwo = await res.json();
-        // console.log(pageTwo);
-        setGamesTwo(pageTwo);
+        const pageThree = await res.json();
+        // console.log(pageThree);
+        setGamesThree(pageThree);
         setLoad("Idle");
       } catch (err) {
         setLoad("Error");
@@ -57,7 +57,7 @@ const PageTwo = () => {
     return <Error />;
   }
 
-  if (gamesTwo === null) {
+  if (gamesThree === null) {
     return <>Loading</>;
   }
 
@@ -79,7 +79,7 @@ const PageTwo = () => {
           </GeneralInfo>
           <GamesWrapper>
             <Gamelists>
-              {gamesTwo.results.map((games, index) => {
+              {gamesThree.results.map((games, index) => {
                 // console.log(games);
                 return (
                   <Result key={index}>
@@ -90,7 +90,7 @@ const PageTwo = () => {
             </Gamelists>
           </GamesWrapper>
           <NextList>
-            <Next onClick={() => nav("/pagethree")}>Next</Next>
+            <Next onClick={() => nav("/pagefour")}>Next</Next>
           </NextList>
         </FullWrap>
       </>
@@ -113,7 +113,7 @@ const PageTwo = () => {
           </GeneralInfo>
           <GamesWrapper>
             <Gamelists>
-              {gamesTwo.results.map((games, index) => {
+              {gamesThree.results.map((games, index) => {
                 // console.log(games);
                 return (
                   <Result key={index}>
@@ -125,7 +125,7 @@ const PageTwo = () => {
             </Gamelists>
           </GamesWrapper>
           <NextList>
-            <Next onClick={() => nav("/pagethree")}>Next</Next>
+            <Next onClick={() => nav("/pagefour")}>Next</Next>
           </NextList>
         </FullWrap>
       </>
@@ -242,4 +242,4 @@ const FullWrap = styled.div`
   background-color: #212120;
 `;
 
-export default PageTwo;
+export default PageThree;

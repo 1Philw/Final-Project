@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Account from "./Account";
+
 import GameNews from "./GameNews";
 import GlobalStyles from "./GlobalStyles";
 import Header from "./Header";
 import Homepage from "./Homepage";
+import PageFour from "./PageFour";
+import PageThree from "./PageThree";
+import PageTwo from "./PageTwo";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -24,7 +28,7 @@ const App = () => {
           },
         });
         const data = await res.json();
-        console.log({ data });
+        // console.log({ data });
         setUser(data.user);
         setUsersGames(data.body);
       } catch (err) {
@@ -48,6 +52,9 @@ const App = () => {
             element={<Account user={user} usersGames={usersGames} />}
           />
           <Route exact path="/game/:id" element={<GameNews />} />
+          <Route exact path="/pagetwo" element={<PageTwo />} />
+          <Route exact path="/pagethree" element={<PageThree />} />
+          <Route exact path="/pagefour" element={<PageFour />} />
         </Routes>
       </Router>
     </>

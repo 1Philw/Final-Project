@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { FiHeart, FiMessageCircle } from "react-icons/fi";
+import { FiMessageCircle } from "react-icons/fi";
 import { AiOutlineStar, AiOutlineLike } from "react-icons/ai";
 import styled from "styled-components";
+import Modal from "./Modal";
 
 const FeedIcons = () => {
   const [likes, setLikes] = useState(0);
@@ -9,6 +10,8 @@ const FeedIcons = () => {
   const [isActive, setIsActive] = useState(false);
 
   const [isLikedByUser, setIsLikedByUser] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleToggleLike = (e) => {
     setIsLikedByUser(!isLikedByUser);
@@ -34,6 +37,10 @@ const FeedIcons = () => {
     setChat(chatToggle ? chat - 1 : chat + 1);
   };
 
+  const handleToggleModal = (e) => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <Wrapper>
       <IconsButton onClick={handleToggleChat}>
@@ -43,7 +50,9 @@ const FeedIcons = () => {
             width: `18px`,
           }}
           color={chatToggle ? "#ff6700" : ""}
+          onClick={handleToggleModal}
         />
+        <Modal open={isOpen} onClose={() => setIsOpen(false)} />
       </IconsButton>
       <IconsButton onClick={handleToggleRetweet}>
         <AiOutlineStar

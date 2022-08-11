@@ -28,7 +28,7 @@ const CLIENT_DEV_URL = "http://localhost:3000";
 const SERVER_DEV_URL = "http://localhost:8000";
 const fetch = require("node-fetch");
 const morgan = require("morgan");
-const { addUser } = require("../../Handlers/mongodb");
+const { addUser, PostComment } = require("../../Handlers/mongodb");
 // const { putNotes, deleteNotes, getNotes } = require("../../handlers");
 const RAWG_TOKEN = process.env.RAWG_TOKEN;
 const API_KEY = process.env.API_KEY;
@@ -255,7 +255,7 @@ app.get(
   }
 );
 
-app.post("/user", addUser);
+app.post("/user", PostComment);
 // app.delete('/user', ...)
 
 app.get("*", (req, res) => {

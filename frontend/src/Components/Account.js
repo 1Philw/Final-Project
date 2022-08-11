@@ -24,7 +24,7 @@ const Account = ({ user, usersGames }) => {
         <TopWrapper>
           <div>Hello {user.displayName}</div>
           <div>
-            <UserImg src="https://avatars.akamai.steamstatic.com/b292b269db62d7eed53bbcd8c59f7d1645735a80_medium.jpg" />
+            <UserImg src={user.photos[1].value} />
           </div>
         </TopWrapper>
         <OwnedGames>Games owned {usersGames.game_count}</OwnedGames>

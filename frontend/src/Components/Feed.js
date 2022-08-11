@@ -1,8 +1,7 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { HomepageContext } from "./HomepageContext";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import PageTwo from "./PageTwo";
 import FeedIcons from "./FeedIcons";
 
 const Feed = () => {
@@ -10,43 +9,104 @@ const Feed = () => {
 
   let nav = useNavigate();
 
-  // console.log(games);
+  // Fetching instead of using Context due to backend/error.
+  const [user, setUser] = useState(null);
+  const [usersGames, setUsersGames] = useState({});
+  //Fetch for gathering all needed data regarding signed in user.
+  useEffect(() => {
+    const fetchFunc = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/account", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+          },
+        });
+        const data = await res.json();
+        // console.log({ data });
+        setUser(data.user);
+        setUsersGames(data.body);
+      } catch (err) {
+        console.log(err.stack, err.message);
+      }
+    };
+    fetchFunc();
+  }, [setUser]);
 
-  return (
-    <>
-      <FullWrap>
-        <Wrapper>
-          <Container>
-            <Platforms>PC</Platforms>
-            <Platforms>Playstation 5</Platforms>
-            <Platforms>Xbox Series X/S</Platforms>
-            <Platforms>Playstation 4</Platforms>
-            <Platforms>Xbox One</Platforms>
-          </Container>
-        </Wrapper>
-        <GeneralInfo>
-          <Title>Some of todays top games!</Title>
-        </GeneralInfo>
-        <GamesWrapper>
-          <Gamelists>
-            {games.results.map((x) => {
-              // console.log(x);
-              return (
-                <Result>
-                  {x.name} <Img src={x.background_image} />
-                  <FeedIcons />
-                </Result>
-              );
-            })}
-          </Gamelists>
-        </GamesWrapper>
-        <NextList>
-          <Next>Next</Next>
-        </NextList>
-        <PageTwo />
-      </FullWrap>
-    </>
-  );
+  // console.log(games);
+  if (!user) {
+    return (
+      <>
+        <FullWrap>
+          <Wrapper>
+            <Container>
+              <Platforms>PC</Platforms>
+              <Platforms>Playstation 5</Platforms>
+              <Platforms>Xbox Series X/S</Platforms>
+              <Platforms>Playstation 4</Platforms>
+              <Platforms>Xbox One</Platforms>
+            </Container>
+          </Wrapper>
+          <GeneralInfo>
+            <Title>Some of todays top games!</Title>
+          </GeneralInfo>
+          <GamesWrapper>
+            <Gamelists>
+              {games.results.map((game, index) => {
+                // console.log(game);
+                return (
+                  <Result key={index}>
+                    {game.name} <Img src={game.background_image} />
+                  </Result>
+                );
+              })}
+            </Gamelists>
+          </GamesWrapper>
+          <NextList>
+            <Next onClick={() => nav("/pagetwo")}>Next</Next>
+          </NextList>
+        </FullWrap>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <FullWrap>
+          <Wrapper>
+            <Container>
+              <Platforms>PC</Platforms>
+              <Platforms>Playstation 5</Platforms>
+              <Platforms>Xbox Series X/S</Platforms>
+              <Platforms>Playstation 4</Platforms>
+              <Platforms>Xbox One</Platforms>
+            </Container>
+          </Wrapper>
+          <GeneralInfo>
+            <Title>Some of todays top games!</Title>
+          </GeneralInfo>
+          <GamesWrapper>
+            <Gamelists>
+              {games.results.map((game, index) => {
+                // console.log(game);
+                return (
+                  <Result key={index}>
+                    {game.name} <Img src={game.background_image} />
+                    <FeedIcons />
+                  </Result>
+                );
+              })}
+            </Gamelists>
+          </GamesWrapper>
+          <NextList>
+            <Next onClick={() => nav("/pagetwo")}>Next</Next>
+          </NextList>
+        </FullWrap>
+      </>
+    );
+  }
 };
 
 const Wrapper = styled.div`
@@ -115,17 +175,6 @@ const Result = styled.div`
   gap: 5px;
 `;
 
-const GamesWrapper2 = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const Gamelists2 = styled.div`
-  display: flex;
-  margin-top: 25px;
-  gap: 20px;
-`;
-
 const Title = styled.div`
   font-size: larger;
 `;
@@ -168,7 +217,5 @@ const Container = styled.div``;
 const FullWrap = styled.div`
   background-color: #212120;
 `;
-
-const RatingTitle = styled.div``;
 
 export default Feed;
