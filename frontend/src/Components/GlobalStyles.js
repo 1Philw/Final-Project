@@ -25,6 +25,7 @@ export default createGlobalStyle`
       border: 0;
       box-sizing: border-box;
       font-size: 100%;
+      font-family: "Poppins", sans-serif;
       vertical-align: baseline;
       /* background-color: #212120; */
   }

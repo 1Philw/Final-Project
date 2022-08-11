@@ -32,6 +32,7 @@ const { addUser } = require("../../Handlers/mongodb");
 // const { putNotes, deleteNotes, getNotes } = require("../../handlers");
 const RAWG_TOKEN = process.env.RAWG_TOKEN;
 const API_KEY = process.env.API_KEY;
+// console.log(API_KEY);
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.  Typically,
@@ -89,7 +90,7 @@ passport.use(
             });
           }
         } catch (err) {
-          console.log(err.stack, err.message);
+          console.log(err.stack, err.message, "CATCH");
         } finally {
           client.close();
           console.log("Disconnected");
@@ -142,34 +143,40 @@ app.get("/test", function (req, res) {
 });
 
 app.get("/account", ensureAuthenticated, function (req, res) {
-  // res.render('account', { user: req.user });
-  // res.status(200).json({user: req.user})
-  // console.log("hellooo");
-  fetch(
-    // gets the list of games owned with info by the User
-    `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${API_KEY}&steamid=${req.user._json.steamid}&format=json&include_appinfo=1&include_played_free_games=1`,
-    {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Credentials": true,
-      },
-    }
-  )
-    .then((steamRes) => steamRes.json())
-    .then((body) =>
-      res.status(200).json({ body: body.response, user: req.user })
-    );
+  // console.log("Hellooo");
+  try {
+    // res.render('account', { user: req.user });
+    // res.status(200).json({user: req.user})
+    // console.log("hellooo");
+    fetch(
+      // gets the list of games owned with info by the User
+      `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${API_KEY}&steamid=${req.user._json.steamid}&format=json&include_appinfo=1&include_played_free_games=1`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+      }
+    )
+      .then((steamRes) => steamRes.json())
+      .then((body) =>
+        res.status(200).json({ body: body.response, user: req.user })
+      );
+  } catch (err) {
+    console.log(err.stack, err.message, "Banana");
+  }
 });
 
+// Fetches news on specific game by its id(appid)
 app.get("/game/:name/:id", function (req, res) {
   const { name, id } = req.params;
+  console.log(id);
   fetch(
-    `https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=${id}&format=json`,
+    `http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=${id}&count=3&maxlength=300&format=json`,
     {
-      // note
       method: "GET",
       credentials: "include",
       headers: {
@@ -180,7 +187,10 @@ app.get("/game/:name/:id", function (req, res) {
     }
   )
     .then((res) => res.json())
-    .then((json) => res.status(200).json({ body: json.appnews.newsitems }));
+    .then((json) => {
+      res.status(200).json({ body: json.appnews.newsitems });
+      // console.log(json);
+    });
 });
 
 app.get("/game/:name/:id/stats/:userId", function (req, res) {

@@ -1,24 +1,21 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { HomepageContext } from "./HomepageContext";
 
-const SearchBar = ({ usersGames, user }) => {
+const RawgSearchBar = () => {
+  const { feed, setFeed, games, setGames } = useContext(HomepageContext);
   const [value, setValue] = useState("");
 
   const nav = useNavigate();
-  console.log(usersGames);
 
-  const gamesmap = usersGames.games.map((result) => {
-    return result;
-  });
+  // const gamesmap = usersGames.games.map((result) => {
+  //   return result;
+  // });
 
-  const matchedGame = gamesmap.filter((games) => {
-    return games.name.toLowerCase().includes(value.toLowerCase());
-  });
-
-  const id = gamesmap.map((ids) => {
-    return ids.appid;
-  });
+  // const matchedGame = gamesmap.filter((games) => {
+  //   return games.name.toLowerCase().includes(value.toLowerCase());
+  // });
 
   const handleSelect = (id) => {
     console.log(id);
@@ -32,6 +29,11 @@ const SearchBar = ({ usersGames, user }) => {
         placeholder="Search games here..."
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleSelect(e.target.value);
+          }
+        }}
       ></Search>
 
       <Ul style={value.length < 2 ? { display: "none" } : { display: "block" }}>
@@ -84,4 +86,4 @@ const Li = styled.li`
   }
 `;
 
-export default SearchBar;
+export default RawgSearchBar;

@@ -1,77 +1,50 @@
 import { useContext } from "react";
 import { HomepageContext } from "./HomepageContext";
 import styled from "styled-components";
-import GameListThree from "./GameListThree";
-import BackgroundTwo from "./BackgroundTwo";
 import { useNavigate } from "react-router-dom";
+import PageTwo from "./PageTwo";
+import FeedIcons from "./FeedIcons";
 
 const Feed = () => {
   const { feed, setFeed, games, setGames } = useContext(HomepageContext);
 
   let nav = useNavigate();
 
-  const gameList = games.results.map((game) => game.name);
-  const gameImg = games.results.map((img) => img.background_image);
   // console.log(games);
-  // const next = games.next;
-  // console.log(next);
+
   return (
     <>
-      <Wrapper>
-        <Container>
-          <Plateforms>PC</Plateforms>
-          <Plateforms>Playstation 5</Plateforms>
-          <Plateforms>Xbox Series X/S</Plateforms>
-          <Plateforms>Playstation 4</Plateforms>
-          <Plateforms>Xbox One</Plateforms>
-        </Container>
-      </Wrapper>
-      <GeneralInfo>
-        <Title>Some of todays top games!</Title>
-      </GeneralInfo>
-      <GamesWrapper>
-        <Gamelists>
-          <Result>
-            {gameList[0]} <Img src={gameImg[0]} />
-          </Result>
-          <Result>
-            {gameList[1]} <Img src={gameImg[1]} />
-          </Result>
-          <Result>
-            {gameList[2]} <Img src={gameImg[2]} />
-          </Result>
-          <Result>
-            {gameList[3]} <Img src={gameImg[3]} />
-          </Result>
-          <Result>
-            {gameList[4]} <Img src={gameImg[4]} />
-          </Result>
-        </Gamelists>
-      </GamesWrapper>
-      <GamesWrapper2>
-        <Gamelists2>
-          <Result>
-            {gameList[5]} <Img src={gameImg[5]} />
-          </Result>
-          <Result>
-            {gameList[6]} <Img src={gameImg[6]} />
-          </Result>
-          <Result>
-            {gameList[7]} <Img src={gameImg[7]} />
-          </Result>
-          <Result>
-            {gameList[8]} <Img src={gameImg[8]} />
-          </Result>
-          <Result>
-            {gameList[9]} <Img src={gameImg[9]} />
-          </Result>
-        </Gamelists2>
-      </GamesWrapper2>
-      <BackgroundTwo />
-      <GameListThree />
-      <NextList>
-        <Next>Next</Next>
-      </NextList>
+      <FullWrap>
+        <Wrapper>
+          <Container>
+            <Platforms>PC</Platforms>
+            <Platforms>Playstation 5</Platforms>
+            <Platforms>Xbox Series X/S</Platforms>
+            <Platforms>Playstation 4</Platforms>
+            <Platforms>Xbox One</Platforms>
+          </Container>
+        </Wrapper>
+        <GeneralInfo>
+          <Title>Some of todays top games!</Title>
+        </GeneralInfo>
+        <GamesWrapper>
+          <Gamelists>
+            {games.results.map((x) => {
+              // console.log(x);
+              return (
+                <Result>
+                  {x.name} <Img src={x.background_image} />
+                  <FeedIcons />
+                </Result>
+              );
+            })}
+          </Gamelists>
+        </GamesWrapper>
+        <NextList>
+          <Next>Next</Next>
+        </NextList>
+        <PageTwo />
+      </FullWrap>
     </>
   );
 };
@@ -82,7 +55,7 @@ const Wrapper = styled.div`
   gap: 12px;
 `;
 
-const Plateforms = styled.button`
+const Platforms = styled.button`
   background-color: #ff6700;
   font-weight: bold;
   color: black;
@@ -119,7 +92,8 @@ const Img = styled.img`
 
 const Gamelists = styled.div`
   display: flex;
-  /* flex-flow: column; */
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 20px;
 `;
 
@@ -190,5 +164,11 @@ const NextList = styled.div`
 `;
 
 const Container = styled.div``;
+
+const FullWrap = styled.div`
+  background-color: #212120;
+`;
+
+const RatingTitle = styled.div``;
 
 export default Feed;

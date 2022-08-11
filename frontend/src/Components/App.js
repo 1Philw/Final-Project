@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Account from "./Account";
-import Background from "./Background";
+import GameNews from "./GameNews";
 import GlobalStyles from "./GlobalStyles";
 import Header from "./Header";
 import Homepage from "./Homepage";
@@ -34,11 +34,11 @@ const App = () => {
     };
     fetchFunc();
   }, [setUser]);
+
   return (
     <>
       <Router>
         <GlobalStyles />
-        <Background />
         <Header user={user} usersGames={usersGames} />
         <Routes>
           <Route exact path="/" element={<Homepage />} />
@@ -47,6 +47,7 @@ const App = () => {
             path="/account"
             element={<Account user={user} usersGames={usersGames} />}
           />
+          <Route exact path="/game/:id" element={<GameNews />} />
         </Routes>
       </Router>
     </>

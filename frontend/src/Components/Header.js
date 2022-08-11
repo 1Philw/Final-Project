@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FaSignInAlt } from "react-icons/fa";
+import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 
@@ -26,7 +26,7 @@ const Header = ({ user, usersGames = [] }) => {
           <Title onClick={() => nav("/")}>Welcome to Echelon Gaming</Title>
           <Wrapper>
             <Auth href="http://localhost:8000/logout">
-              <FaSignInAlt /> Sign-out
+              <FaSignOutAlt /> Sign-out
             </Auth>
             <SearchBar usersGames={usersGames} user={user} />
             <Button onClick={() => nav("/account")}>Profile</Button>
@@ -101,6 +101,8 @@ const Button = styled.button`
   }
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+  background-color: #212120;
+`;
 
 export default Header;
