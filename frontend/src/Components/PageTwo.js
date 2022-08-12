@@ -239,7 +239,7 @@ const NextList = styled.div`
 const Container = styled.div``;
 
 const FullWrap = styled.div`
-  background-color: #212120;
+  background-color: #141414;
 `;
 
 export default PageTwo;

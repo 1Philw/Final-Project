@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FiMessageCircle } from "react-icons/fi";
 import { AiOutlineStar, AiOutlineLike } from "react-icons/ai";
 import styled from "styled-components";
 import Modal from "./Modal";
+import { HomepageContext } from "./HomepageContext";
 
-const FeedIcons = () => {
+const FeedIcons = ({ gameName, gameImg }) => {
+  const { games } = useContext(HomepageContext);
+  const [isFavorited, setIsFavorited] = useState(false);
   // Fetching instead of using Context due to backend/error.
   const [user, setUser] = useState(null);
   const [usersGames, setUsersGames] = useState({});
@@ -25,12 +28,52 @@ const FeedIcons = () => {
         // console.log({ data });
         setUser(data.user);
         setUsersGames(data.body);
+        setIsFavorited(
+          data.user.favorites.some((favorite) => favorite.name === gameName)
+        );
       } catch (err) {
         console.log(err.stack, err.message);
       }
     };
     fetchFunc();
   }, []);
+
+  const handleFavs = async () => {
+    try {
+      if (!isFavorited) {
+        await fetch(`/favorite/${user.id}`, {
+          method: "PATCH",
+          body: JSON.stringify({
+            name: gameName,
+            image: gameImg,
+          }),
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+          },
+        });
+      } else {
+        await fetch(`/favorite/remove/${user.id}`, {
+          method: "PATCH",
+          body: JSON.stringify({
+            name: gameName,
+            image: gameImg,
+          }),
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+          },
+        });
+      }
+    } catch (err) {
+      console.log(err.stack, err.message);
+    }
+    setIsFavorited(!isFavorited);
+  };
 
   const [likes, setLikes] = useState(0);
 
@@ -44,15 +87,6 @@ const FeedIcons = () => {
     setIsLikedByUser(!isLikedByUser);
     setLikes(isLikedByUser ? likes - 1 : likes + 1);
     setIsActive((current) => !current);
-  };
-
-  const [favorite, setFavorite] = useState(0);
-
-  const [isFavorited, setIsFavorited] = useState(false);
-
-  const handleToggleRetweet = (e) => {
-    setIsFavorited(!isFavorited);
-    setFavorite(isFavorited ? favorite - 1 : favorite + 1);
   };
 
   const [chat, setChat] = useState();
@@ -88,12 +122,12 @@ const FeedIcons = () => {
           />
         )}
       </IconsButton>
-      <IconsButton onClick={handleToggleRetweet}>
+      <IconsButton onClick={handleFavs}>
         <AiOutlineStar
           style={{ height: `18px`, width: `18px` }}
           color={isFavorited ? "rgb(23, 191, 99)" : ""}
         />
-        <Span>{!!favorite && favorite}</Span>
+        {/* <Span>{!!favorite && favorite}</Span> */}
       </IconsButton>
       <IconsButton onClick={handleToggleLike}>
         <AiOutlineLike

@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Background from "./Background";
 
 const Account = ({ user, usersGames }) => {
   let nav = useNavigate();
@@ -19,7 +18,6 @@ const Account = ({ user, usersGames }) => {
 
   return (
     <>
-      <Background />
       <Wrapper>
         <TopWrapper>
           <div>Hello {user.displayName}</div>
@@ -44,8 +42,10 @@ const Account = ({ user, usersGames }) => {
 };
 
 const Wrapper = styled.div`
-  /* background-color: #212120; */
-  margin-left: 15px;
+  background-color: #141414;
+  height: 100vh;
+  width: 100vw;
+  padding-left: 15px;
 `;
 const Container = styled.div`
   display: flex;
@@ -65,7 +65,7 @@ const OwnedGames = styled.div`
 `;
 
 const GameDiv = styled.div`
-  border-bottom: 1px solid #5bccf6;
+  border-bottom: 1px solid #ff6700;
   border-radius: 8px;
   cursor: pointer;
   /* #ff6700 */

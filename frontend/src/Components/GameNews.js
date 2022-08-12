@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Error from "./Error";
 import styled from "styled-components";
-import Background from "./Background";
 
 const GameNews = () => {
   const [news, setNews] = useState(null);
@@ -34,7 +33,6 @@ const GameNews = () => {
 
   return (
     <>
-      <Background />
       <Wrapper>
         <div>News</div>
         {news.map((appNews, index) => {
@@ -52,7 +50,11 @@ const GameNews = () => {
   );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  background-color: #141414;
+  height: 100vh;
+  width: 100vw;
+`;
 
 const Container = styled.div`
   display: flex;

@@ -16,7 +16,7 @@ export const HomepageProvider = ({ children }) => {
           "https://api.rawg.io/api/platforms?key=2e06ccaa17a44ac6bd7b391b815b90c1"
         );
         const data = await res.json();
-        // console.log(data);
+        console.log(data);
         setFeed(data);
         setFeedStatus("Idle");
       } catch (err) {
@@ -33,7 +33,7 @@ export const HomepageProvider = ({ children }) => {
           "https://api.rawg.io/api/games?key=2e06ccaa17a44ac6bd7b391b815b90c1&dates=2019-09-01,2022"
         );
         const data = await res.json();
-        // console.log(data);
+        console.log(data);
         setGames(data);
         setGamesStatus("Idle");
       } catch (err) {

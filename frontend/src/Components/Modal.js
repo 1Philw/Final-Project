@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4, v4 } from "uuid";
 
-const Modal = ({ open, onClose, user, setUser }) => {
+const Modal = ({ onClose, user, setUser }) => {
   const [count, setCount] = useState(300);
 
   const [post, setPost] = useState("");
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    console.log("Fetching comments");
+    // console.log("Fetching comments");
     fetch("/user")
       .then((res) => res.json())
       .then((data) => {
@@ -61,6 +61,14 @@ const Modal = ({ open, onClose, user, setUser }) => {
               setCount(300 - e.target.value.length);
             }}
           ></MessageInput>
+          {message.map((msgs) => {
+            return (
+              <Comments key={msgs._id}>
+                <CommentUser>{msgs.user}:</CommentUser>
+                <Comment>{msgs.comment}</Comment>
+              </Comments>
+            );
+          })}
           <CountAndBtn>
             <TextCount
               style={{
@@ -72,13 +80,6 @@ const Modal = ({ open, onClose, user, setUser }) => {
             >
               {count}
             </TextCount>
-            {message.map((msgs) => {
-              return (
-                <Comments key={msgs._id}>
-                  {msgs.user}: {msgs.comment}
-                </Comments>
-              );
-            })}
             <CommentBtn disabled={count < 0 || count >= 300}>
               Comment
             </CommentBtn>
@@ -110,12 +111,26 @@ const ImgTextBox = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #212120;
+  background-color: #141414;
   padding: 50px;
   z-index: 10;
 `;
 
-const Comments = styled.div``;
+const Comments = styled.div`
+  display: flex;
+  width: fit-content;
+  margin-left: 10px;
+  margin-top: 25px;
+`;
+
+const Comment = styled.div`
+  margin-left: 5px;
+`;
+
+const CommentUser = styled.div`
+  border-bottom: 1px solid #ff6700;
+  border-radius: 50%;
+`;
 
 const TextCount = styled.div`
   opacity: 0.3;

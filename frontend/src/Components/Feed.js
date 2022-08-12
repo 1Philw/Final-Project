@@ -94,7 +94,10 @@ const Feed = () => {
                 return (
                   <Result key={index}>
                     {game.name} <Img src={game.background_image} />
-                    <FeedIcons />
+                    <FeedIcons
+                      gameName={game.name}
+                      gameImg={game.background_image}
+                    />
                   </Result>
                 );
               })}
@@ -148,6 +151,12 @@ const Platforms = styled.button`
 const Img = styled.img`
   width: 250px;
   height: 250px;
+  position: relative;
+  transition: transform 0.2s;
+  :hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 `;
 
 const Gamelists = styled.div`
@@ -172,7 +181,8 @@ const GamesWrapper = styled.div`
 const Result = styled.div`
   display: flex;
   flex-flow: column;
-  gap: 5px;
+  margin-top: 10px;
+  gap: 16px;
 `;
 
 const Title = styled.div`
@@ -215,7 +225,7 @@ const NextList = styled.div`
 const Container = styled.div``;
 
 const FullWrap = styled.div`
-  background-color: #212120;
+  background-color: #141414;
 `;
 
 export default Feed;

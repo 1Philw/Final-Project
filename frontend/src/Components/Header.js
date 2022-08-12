@@ -102,7 +102,7 @@ const Button = styled.button`
 `;
 
 const Container = styled.div`
-  background-color: #212120;
+  background-color: #141414;
 `;
 
 export default Header;
