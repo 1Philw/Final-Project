@@ -28,7 +28,7 @@ const CLIENT_DEV_URL = "http://localhost:3000";
 const SERVER_DEV_URL = "http://localhost:8000";
 const fetch = require("node-fetch");
 const morgan = require("morgan");
-const { addUser, PostComment } = require("../../Handlers/mongodb");
+const { postComment, findComment } = require("../../Handlers/mongodb");
 // const { putNotes, deleteNotes, getNotes } = require("../../handlers");
 const RAWG_TOKEN = process.env.RAWG_TOKEN;
 const API_KEY = process.env.API_KEY;
@@ -85,7 +85,7 @@ passport.use(
               user: profile._json.personaname,
               profile: profile._json.profileurl,
               avatar: profile._json.avatar,
-              comments: [],
+              favorites: [],
               likes: [],
             });
           }
@@ -95,7 +95,7 @@ passport.use(
           client.close();
           console.log("Disconnected");
         }
-        profile.comments = result.comments;
+        profile.favorites = result.favorites;
         profile.likes = result.likes;
 
         profile.identifier = identifier;
@@ -255,7 +255,8 @@ app.get(
   }
 );
 
-app.post("/user", PostComment);
+app.post("/user", postComment);
+app.get("/user", findComment);
 // app.delete('/user', ...)
 
 app.get("*", (req, res) => {

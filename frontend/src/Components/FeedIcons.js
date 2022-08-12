@@ -1,10 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiMessageCircle } from "react-icons/fi";
 import { AiOutlineStar, AiOutlineLike } from "react-icons/ai";
 import styled from "styled-components";
 import Modal from "./Modal";
 
 const FeedIcons = () => {
+  // Fetching instead of using Context due to backend/error.
+  const [user, setUser] = useState(null);
+  const [usersGames, setUsersGames] = useState({});
+  // Fetch for gathering all needed data regarding signed in user.
+  useEffect(() => {
+    const fetchFunc = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/account", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+          },
+        });
+        const data = await res.json();
+        // console.log({ data });
+        setUser(data.user);
+        setUsersGames(data.body);
+      } catch (err) {
+        console.log(err.stack, err.message);
+      }
+    };
+    fetchFunc();
+  }, []);
+
   const [likes, setLikes] = useState(0);
 
   const [isActive, setIsActive] = useState(false);
@@ -52,7 +79,14 @@ const FeedIcons = () => {
           color={chatToggle ? "#ff6700" : ""}
           onClick={handleToggleModal}
         />
-        <Modal open={isOpen} onClose={() => setIsOpen(false)} />
+        {isOpen && (
+          <Modal
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+            user={user}
+            setUser={setUser}
+          />
+        )}
       </IconsButton>
       <IconsButton onClick={handleToggleRetweet}>
         <AiOutlineStar

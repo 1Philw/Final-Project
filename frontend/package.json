@@ -10,7 +10,9 @@
     "react-firebase-hooks": "^5.0.3",
     "react-icons": "^4.4.0",
     "react-scripts": "5.0.1",
-    "styled-components": "^5.3.5"
+    "styled-components": "^5.3.5",
+    "uuid": "^8.3.2",
+    "uuidv4": "^6.2.13"
   },
   "scripts": {
     "start": "react-scripts start",

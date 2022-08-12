@@ -1,80 +1,66 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { v4 as uuidv4, v4 } from "uuid";
 
-const Modal = ({ open, onClose }) => {
+const Modal = ({ open, onClose, user, setUser }) => {
   const [count, setCount] = useState(300);
 
   const [post, setPost] = useState("");
+  const [message, setMessage] = useState(null);
 
-  // Fetching instead of using Context due to backend/error.
-  const [user, setUser] = useState(null);
-  const [usersGames, setUsersGames] = useState({});
-  // Fetch for gathering all needed data regarding signed in user.
   useEffect(() => {
-    const fetchFunc = async () => {
-      try {
-        const res = await fetch("http://localhost:8000/account", {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": true,
-          },
-        });
-        const data = await res.json();
-        console.log({ data });
-        setUser(data.user);
-        setUsersGames(data.body);
-      } catch (err) {
+    console.log("Fetching comments");
+    fetch("/user")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setMessage(data.data);
+      })
+      .catch((err) => {
         console.log(err.stack, err.message);
-      }
-    };
-    fetchFunc();
+      });
   }, [setUser]);
 
-  // const handleComment = (e) => {
-  //   e.preventDefault();
-  //   fetch("", {
-  //     method: "POST",
-  //     body: JSON.stringify({ status: post }),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   }).catch((e) => {
-  //     set("Error");
-  //   });
-  //   fetch(``)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       set(data);
-  //     })
-  //     .catch((e) => {
-  //       set("Error");
-  //     });
-  //   e.target.reset();
-  //   setCount(300);
-  // };
+  const handleComment = (e) => {
+    e.preventDefault();
+    fetch("/user", {
+      method: "POST",
+      body: JSON.stringify({
+        comment: post,
+        user: user.displayName,
+        _id: v4(),
+        steamid: user.id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).catch((err) => {
+      console.log(err.stack, err.message);
+    });
+    e.target.reset();
+    setCount(300);
+    window.alert("You Successfully Commented");
+  };
 
-  // onSubmit={(e) => handleComment(e)}
+  if (!message) {
+    return <>Loading</>;
+  }
 
-  if (!open) return null;
   return (
     <>
-      <div>Fancy Modal</div>
       <ImgTextBox>
         <UserDiv>
           <UserName>{user.displayName}</UserName>
           <Img src={user.photos[1].value} />
         </UserDiv>
-        <Form>
-          <TextInput
+        <Form onSubmit={(e) => handleComment(e)}>
+          <MessageInput
             placeholder={"Comment here..."}
             onChange={(e) => {
               setPost(e.target.value);
               setCount(300 - e.target.value.length);
             }}
-          ></TextInput>
+          ></MessageInput>
           <CountAndBtn>
             <TextCount
               style={{
@@ -86,6 +72,13 @@ const Modal = ({ open, onClose }) => {
             >
               {count}
             </TextCount>
+            {message.map((msgs) => {
+              return (
+                <Comments key={msgs._id}>
+                  {msgs.user}: {msgs.comment}
+                </Comments>
+              );
+            })}
             <CommentBtn disabled={count < 0 || count >= 300}>
               Comment
             </CommentBtn>
@@ -121,6 +114,8 @@ const ImgTextBox = styled.div`
   padding: 50px;
   z-index: 10;
 `;
+
+const Comments = styled.div``;
 
 const TextCount = styled.div`
   opacity: 0.3;
@@ -193,7 +188,7 @@ const Form = styled.form`
   flex-flow: column;
 `;
 
-const TextInput = styled.textarea`
+const MessageInput = styled.textarea`
   padding-left: 12px;
   width: 880px;
   height: 250px;

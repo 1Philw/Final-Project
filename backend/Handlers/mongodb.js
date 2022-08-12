@@ -1,4 +1,5 @@
 "use strict";
+const { parse } = require("dotenv");
 const { MongoClient } = require("mongodb");
 
 require("dotenv").config();
@@ -62,12 +63,12 @@ const updateUser = async (req, res) => {
     res.status(500).json({ status: 500, data: req.body, message: err.message });
     console.log(err.stack);
   } finally {
-    client.closer();
+    client.close();
     console.log("Disconnected");
   }
 };
 
-const PostComment = async (req, res) => {
+const postComment = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   try {
     await client.connect();
@@ -75,7 +76,7 @@ const PostComment = async (req, res) => {
     const db = client.db("final");
     console.log("Connected!");
 
-    const result = await db.collection("comments").insertOne();
+    const result = await db.collection("comments").insertOne(req.body);
     console.log("Success");
     return result
       ? res.status(200).json({
@@ -90,12 +91,41 @@ const PostComment = async (req, res) => {
     res.status(500).json({ status: 500, data: req.body, message: err.message });
     console.log(err.stack);
   } finally {
-    client.closer();
+    client.close();
+    console.log("Disconnected");
+  }
+};
+
+const findComment = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+
+    const db = client.db("final");
+    console.log("Connected!");
+
+    const result = await db.collection("comments").find().toArray();
+    console.log("Success");
+    return result
+      ? res.status(200).json({
+          status: 200,
+          data: result,
+          message: "Commented Succesfully Retrieved",
+        })
+      : res
+          .status(400)
+          .json({ status: 400, message: "Error please try again." });
+  } catch (err) {
+    res.status(500).json({ status: 500, data: req.body, message: err.message });
+    console.log(err.stack);
+  } finally {
+    client.close();
     console.log("Disconnected");
   }
 };
 
 module.exports = {
   addUser,
-  PostComment,
+  postComment,
+  findComment,
 };
