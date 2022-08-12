@@ -72,6 +72,7 @@ const Ul = styled.ul`
   position: absolute;
   background-color: #212120;
   margin-top: 45px;
+  margin-right: 50px;
   z-index: 2;
   box-shadow: 0px 0px 20px -2px #ff6700;
 `;

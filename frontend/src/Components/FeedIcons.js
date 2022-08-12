@@ -1,12 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FiMessageCircle } from "react-icons/fi";
 import { AiOutlineStar, AiOutlineLike } from "react-icons/ai";
 import styled from "styled-components";
 import Modal from "./Modal";
-import { HomepageContext } from "./HomepageContext";
 
 const FeedIcons = ({ gameName, gameImg }) => {
-  const { games } = useContext(HomepageContext);
   const [isFavorited, setIsFavorited] = useState(false);
   // Fetching instead of using Context due to backend/error.
   const [user, setUser] = useState(null);
@@ -75,8 +73,6 @@ const FeedIcons = ({ gameName, gameImg }) => {
     setIsFavorited(!isFavorited);
   };
 
-  const [likes, setLikes] = useState(0);
-
   const [isActive, setIsActive] = useState(false);
 
   const [isLikedByUser, setIsLikedByUser] = useState(false);
@@ -85,7 +81,6 @@ const FeedIcons = ({ gameName, gameImg }) => {
 
   const handleToggleLike = (e) => {
     setIsLikedByUser(!isLikedByUser);
-    setLikes(isLikedByUser ? likes - 1 : likes + 1);
     setIsActive((current) => !current);
   };
 
@@ -138,7 +133,6 @@ const FeedIcons = ({ gameName, gameImg }) => {
           }}
           color={isLikedByUser ? "#ff6700" : ""}
         />
-        <Span>{!!likes && likes}</Span>
       </IconsButton>
     </Wrapper>
   );

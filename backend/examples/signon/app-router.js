@@ -33,6 +33,7 @@ const {
   findComment,
   addFavorite,
   removeFavorite,
+  getUser,
 } = require("../../Handlers/mongodb");
 // const { putNotes, deleteNotes, getNotes } = require("../../handlers");
 const RAWG_TOKEN = process.env.RAWG_TOKEN;
@@ -262,6 +263,7 @@ app.get(
 
 app.post("/user", postComment);
 app.get("/user", findComment);
+app.get("/user/:id", getUser);
 app.patch("/favorite/:id", addFavorite);
 app.patch("/favorite/remove/:id", removeFavorite);
 // app.delete('/user', ...)

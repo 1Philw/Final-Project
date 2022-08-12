@@ -30,6 +30,7 @@ const Header = ({ user, usersGames = [] }) => {
             </Auth>
             <SearchBar usersGames={usersGames} user={user} />
             <Button onClick={() => nav("/account")}>Profile</Button>
+            <Button onClick={() => nav("/favorites")}>Favorites</Button>
           </Wrapper>
         </Container>
       </>
@@ -38,7 +39,8 @@ const Header = ({ user, usersGames = [] }) => {
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  margin-left: 60px;
   padding-top: 25px;
   padding-bottom: 25px;
 `;
@@ -54,6 +56,7 @@ const Auth = styled.a`
   text-decoration: none;
   align-items: center;
   cursor: pointer;
+  margin-right: 65px;
   padding: 10px;
   position: relative;
   :after {
@@ -81,6 +84,7 @@ const Button = styled.button`
   font-size: medium;
   align-items: center;
   cursor: pointer;
+  margin-left: 30px;
   padding: 10px;
   position: relative;
   :after {

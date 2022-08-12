@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Account from "./Account";
+import Favorites from "./Favorites";
 
 import GameNews from "./GameNews";
 import GlobalStyles from "./GlobalStyles";
@@ -55,6 +56,11 @@ const App = () => {
           <Route exact path="/pagetwo" element={<PageTwo />} />
           <Route exact path="/pagethree" element={<PageThree />} />
           <Route exact path="/pagefour" element={<PageFour />} />
+          <Route
+            exact
+            path="/favorites"
+            element={<Favorites user={user} usersGames={usersGames} />}
+          />
         </Routes>
       </Router>
     </>
