@@ -30,19 +30,29 @@ const Favorites = ({ user, usersGames }) => {
     return <>Loading</>;
   }
 
-  return (
-    <>
-      <FullWrap>
-        {usersFavorites.favorites.map((fav) => {
-          return (
-            <Favs key={usersFavorites.id}>
-              {fav.name} <Img src={fav.image} />
-            </Favs>
-          );
-        })}
-      </FullWrap>
-    </>
-  );
+  if (!usersFavorites) {
+    return (
+      <>
+        <FullWrap>
+          <div>You have no favorites.</div>
+        </FullWrap>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <FullWrap>
+          {usersFavorites.favorites.map((fav) => {
+            return (
+              <Favs key={fav.id}>
+                {fav.name} <Img src={fav.image} />
+              </Favs>
+            );
+          })}
+        </FullWrap>
+      </>
+    );
+  }
 };
 
 const FullWrap = styled.div`

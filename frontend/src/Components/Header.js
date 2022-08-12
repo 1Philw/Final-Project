@@ -107,6 +107,7 @@ const Button = styled.button`
 
 const Container = styled.div`
   background-color: #141414;
+  width: 100vw;
 `;
 
 export default Header;
