@@ -57,7 +57,7 @@ const getUser = async (req, res) => {
       ? res.status(200).json({
           status: 200,
           data: result,
-          message: "Successfully retrieved favorite.",
+          message: "Successfully retrieved user.",
         })
       : res
           .status(400)
@@ -219,7 +219,87 @@ const removeFavorite = async (req, res) => {
       ? res.status(200).json({
           status: 200,
           data: { ...req.body },
-          message: "Succesfully added to favorites.",
+          message: "Succesfully removed favorite.",
+        })
+      : res
+          .status(400)
+          .json({ status: 400, message: "Error please try again." });
+  } catch (err) {
+    res.status(500).json({ status: 500, data: req.body, message: err.message });
+    console.log(err.stack);
+  } finally {
+    client.close();
+    console.log("Disconnected");
+  }
+};
+
+const addLike = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const _id = req.params.id;
+  const { name, image } = req.body;
+
+  try {
+    await client.connect();
+
+    const db = client.db("final");
+    console.log("Connected!");
+
+    const result = await db.collection("users").findOne({ _id });
+
+    const likes = result.likes;
+    likes.push({
+      name: name,
+      image: image,
+    });
+    const result2 = await db
+      .collection("users")
+      .updateOne({ _id }, { $set: { likes } });
+    console.log("Success");
+    return result2
+      ? res.status(200).json({
+          status: 200,
+          data: { ...req.body },
+          message: "Succesfully added to likes.",
+        })
+      : res
+          .status(400)
+          .json({ status: 400, message: "Error please try again." });
+  } catch (err) {
+    res.status(500).json({ status: 500, data: req.body, message: err.message });
+    console.log(err.stack);
+  } finally {
+    client.close();
+    console.log("Disconnected");
+  }
+};
+
+const removeLike = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const _id = req.params.id;
+
+  const { name, image } = req.body;
+  console.log(req.body);
+  try {
+    await client.connect();
+
+    const db = client.db("final");
+    console.log("Connected!");
+
+    const result = await db.collection("users").findOne({ _id });
+    console.log(result);
+    const likes = result.likes;
+    const filtered = likes.filter((like) => {
+      return like.name !== name;
+    });
+    const result2 = await db
+      .collection("users")
+      .updateOne({ _id }, { $set: { likes: filtered } });
+    console.log("Success");
+    return result2
+      ? res.status(200).json({
+          status: 200,
+          data: { ...req.body },
+          message: "Succesfully removed like.",
         })
       : res
           .status(400)
@@ -240,4 +320,6 @@ module.exports = {
   addFavorite,
   removeFavorite,
   getUser,
+  addLike,
+  removeLike,
 };

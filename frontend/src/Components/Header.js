@@ -56,7 +56,7 @@ const Auth = styled.a`
   text-decoration: none;
   align-items: center;
   cursor: pointer;
-  margin-right: 65px;
+  margin-right: 75px;
   padding: 10px;
   position: relative;
   :after {

@@ -6,6 +6,7 @@ import Modal from "./Modal";
 
 const FeedIcons = ({ gameName, gameImg }) => {
   const [isFavorited, setIsFavorited] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   // Fetching instead of using Context due to backend/error.
   const [user, setUser] = useState(null);
   const [usersGames, setUsersGames] = useState({});
@@ -73,24 +74,49 @@ const FeedIcons = ({ gameName, gameImg }) => {
     setIsFavorited(!isFavorited);
   };
 
-  const [isActive, setIsActive] = useState(false);
-
-  const [isLikedByUser, setIsLikedByUser] = useState(false);
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleToggleLike = (e) => {
-    setIsLikedByUser(!isLikedByUser);
-    setIsActive((current) => !current);
+  const handleLikes = async () => {
+    try {
+      if (!isLiked) {
+        await fetch(`/like/${user.id}`, {
+          method: "PATCH",
+          body: JSON.stringify({
+            name: gameName,
+            image: gameImg,
+          }),
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+          },
+        });
+      } else {
+        await fetch(`/like/remove/${user.id}`, {
+          method: "PATCH",
+          body: JSON.stringify({
+            name: gameName,
+            image: gameImg,
+          }),
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+          },
+        });
+      }
+    } catch (err) {
+      console.log(err.stack, err.message);
+    }
+    setIsLiked(!isLiked);
   };
 
-  const [chat, setChat] = useState();
+  const [isOpen, setIsOpen] = useState(false);
 
   const [chatToggle, setChatToggle] = useState(false);
 
   const handleToggleChat = (e) => {
     setChatToggle(!chatToggle);
-    setChat(chatToggle ? chat - 1 : chat + 1);
   };
 
   const handleToggleModal = (e) => {
@@ -122,16 +148,14 @@ const FeedIcons = ({ gameName, gameImg }) => {
           style={{ height: `18px`, width: `18px` }}
           color={isFavorited ? "rgb(23, 191, 99)" : ""}
         />
-        {/* <Span>{!!favorite && favorite}</Span> */}
       </IconsButton>
-      <IconsButton onClick={handleToggleLike}>
+      <IconsButton onClick={handleLikes}>
         <AiOutlineLike
           style={{
             height: `18px`,
             width: `18px`,
-            fill: isActive ? "#5bccf6" : "",
           }}
-          color={isLikedByUser ? "#ff6700" : ""}
+          color={isLiked ? "#5bccf6" : ""}
         />
       </IconsButton>
     </Wrapper>
