@@ -10,7 +10,7 @@ const Header = ({ user, usersGames = [] }) => {
     return (
       <>
         <Container>
-          <Title onClick={() => nav("/")}>Welcome to Echelon Gaming</Title>
+          <Title onClick={() => nav("/")}>Welcome to Limitless Gaming</Title>
           <Wrapper>
             <Auth href="http://localhost:8000/auth/steam">
               <FaSignInAlt /> Sign-in
@@ -23,7 +23,7 @@ const Header = ({ user, usersGames = [] }) => {
     return (
       <>
         <Container>
-          <Title onClick={() => nav("/")}>Welcome to Echelon Gaming</Title>
+          <Title onClick={() => nav("/")}>Welcome to Limitless Gaming</Title>
           <Wrapper>
             <Auth href="http://localhost:8000/logout">
               <FaSignOutAlt /> Sign-out

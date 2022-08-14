@@ -252,16 +252,22 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Endpoints.
+//get rawg api plateforms data.
 app.get(`https://api.rawg.io/api/platforms?key=${RAWG_TOKEN}`, (req, res) => {
   return res.status(200).json({ status: 200, message: "Success" });
 });
 
+// get rawg api games data.
 app.get(
   `https://api.rawg.io/api/games?key=${RAWG_TOKEN}&dates=2019-09-01,2019-09-30&platforms=18,1,7`,
   (req, res) => {
     return res.status(200).json({ status: 200, message: "Success" });
   }
 );
+
+app.get(`https://api.rawg.io/api/games/{id}?key=${RAWG_TOKEN}`, (req, res) => {
+  return res.status(200).json({ status: 200, message: "Success" });
+});
 
 app.post("/user", postComment);
 app.get("/user", findComment);

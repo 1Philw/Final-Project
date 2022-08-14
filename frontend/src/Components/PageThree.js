@@ -67,11 +67,17 @@ const PageThree = () => {
         <FullWrap>
           <Wrapper>
             <Container>
-              <Platforms>PC</Platforms>
-              <Platforms>Playstation 5</Platforms>
-              <Platforms>Xbox Series X/S</Platforms>
-              <Platforms>Playstation 4</Platforms>
-              <Platforms>Xbox One</Platforms>
+            <Platforms onClick={() => nav("/pc")}>PC</Platforms>
+              <Platforms onClick={() => nav("/psfive")}>
+                Playstation 5
+              </Platforms>
+              <Platforms onClick={() => nav("/xboxseries")}>
+                Xbox Series X/S
+              </Platforms>
+              <Platforms onClick={() => nav("/psfour")}>
+                Playstation 4
+              </Platforms>
+              <Platforms onClick={() => nav("/xboxone")}>Xbox One</Platforms>
             </Container>
           </Wrapper>
           <GeneralInfo>
@@ -101,11 +107,17 @@ const PageThree = () => {
         <FullWrap>
           <Wrapper>
             <Container>
-              <Platforms>PC</Platforms>
-              <Platforms>Playstation 5</Platforms>
-              <Platforms>Xbox Series X/S</Platforms>
-              <Platforms>Playstation 4</Platforms>
-              <Platforms>Xbox One</Platforms>
+            <Platforms onClick={() => nav("/pc")}>PC</Platforms>
+              <Platforms onClick={() => nav("/psfive")}>
+                Playstation 5
+              </Platforms>
+              <Platforms onClick={() => nav("/xboxseries")}>
+                Xbox Series X/S
+              </Platforms>
+              <Platforms onClick={() => nav("/psfour")}>
+                Playstation 4
+              </Platforms>
+              <Platforms onClick={() => nav("/xboxone")}>Xbox One</Platforms>
             </Container>
           </Wrapper>
           <GeneralInfo>
@@ -172,6 +184,12 @@ const Platforms = styled.button`
 const Img = styled.img`
   width: 250px;
   height: 250px;
+  position: relative;
+  transition: transform 0.2s;
+  :hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 `;
 
 const Gamelists = styled.div`
@@ -196,7 +214,8 @@ const GamesWrapper = styled.div`
 const Result = styled.div`
   display: flex;
   flex-flow: column;
-  gap: 5px;
+  margin-top: 10px;
+  gap: 16px;
 `;
 
 const Title = styled.div`

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Account from "./Account";
 import Favorites from "./Favorites";
-
 import GameNews from "./GameNews";
 import GlobalStyles from "./GlobalStyles";
 import Header from "./Header";
@@ -10,11 +9,15 @@ import Homepage from "./Homepage";
 import PageFour from "./PageFour";
 import PageThree from "./PageThree";
 import PageTwo from "./PageTwo";
+import Pc from "./Pc";
+import PsFive from "./PsFive";
+import PsFour from "./PsFour";
+import XboxOne from "./XboxOne";
+import XboxSeries from "./XboxSeries";
 
 const App = () => {
   const [user, setUser] = useState(null);
   const [usersGames, setUsersGames] = useState({});
-  const [userStatus, setUserStatus] = useState("");
   //Fetch for gathering all needed data regarding signed in user.
   useEffect(() => {
     const fetchFunc = async () => {
@@ -33,7 +36,6 @@ const App = () => {
         setUser(data.user);
         setUsersGames(data.body);
       } catch (err) {
-        setUserStatus("Error");
         console.log(err.stack, err.message);
       }
     };
@@ -61,6 +63,11 @@ const App = () => {
             path="/favorites"
             element={<Favorites user={user} usersGames={usersGames} />}
           />
+          <Route exact path="/pc" element={<Pc />} />
+          <Route exact path="/psfive" element={<PsFive />} />
+          <Route exact path="/xboxseries" element={<XboxSeries />} />
+          <Route exact path="/psfour" element={<PsFour />} />
+          <Route exact path="/xboxone" element={<XboxOne />} />
         </Routes>
       </Router>
     </>

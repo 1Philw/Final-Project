@@ -25,7 +25,7 @@ export const HomepageProvider = ({ children }) => {
     };
     fetchFunc();
   }, []);
-  // Fetch for getting a list of all my available games.
+  // Fetch for getting a list of all available games.
   useEffect(() => {
     const fetchGames = async () => {
       try {

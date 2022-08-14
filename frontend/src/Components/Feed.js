@@ -6,6 +6,7 @@ import FeedIcons from "./FeedIcons";
 
 const Feed = () => {
   const { feed, setFeed, games, setGames } = useContext(HomepageContext);
+  // const [details, setDetails] = useState(null);
 
   let nav = useNavigate();
 
@@ -36,18 +37,48 @@ const Feed = () => {
     fetchFunc();
   }, [setUser]);
 
-  // console.log(games);
+  // const id = games.results.map((ids) => ids.id)
+  // console.log(id)
+
+  // const handleGameDetails = async () => {
+  //   try {
+  //     const res = await fetch(
+  //       `https://api.rawg.io/api/games/${}?key=2e06ccaa17a44ac6bd7b391b815b90c1`,
+  //       {
+  //         method: "GET",
+  //         credentials: "include",
+  //         headers: {
+  //           Accept: "application/json",
+  //           "Content-Type": "application/json",
+  //           "Access-Control-Allow-Credentials": true,
+  //         },
+  //       }
+  //     );
+  //     const data = await res.json();
+  //     console.log({ data });
+  //     setDetails(data);
+  //   } catch (err) {
+  //     console.log(err.stack, err.message);
+  //   }
+  // };
+
   if (!user) {
     return (
       <>
         <FullWrap>
           <Wrapper>
             <Container>
-              <Platforms>PC</Platforms>
-              <Platforms>Playstation 5</Platforms>
-              <Platforms>Xbox Series X/S</Platforms>
-              <Platforms>Playstation 4</Platforms>
-              <Platforms>Xbox One</Platforms>
+              <Platforms onClick={() => nav("/pc")}>PC</Platforms>
+              <Platforms onClick={() => nav("/psfive")}>
+                Playstation 5
+              </Platforms>
+              <Platforms onClick={() => nav("/xboxseries")}>
+                Xbox Series X/S
+              </Platforms>
+              <Platforms onClick={() => nav("/psfour")}>
+                Playstation 4
+              </Platforms>
+              <Platforms onClick={() => nav("/xboxone")}>Xbox One</Platforms>
             </Container>
           </Wrapper>
           <GeneralInfo>
@@ -59,7 +90,8 @@ const Feed = () => {
                 // console.log(game);
                 return (
                   <Result key={index}>
-                    {game.name} <Img src={game.background_image} />
+                    {game.name}
+                    <Img src={game.background_image} />
                   </Result>
                 );
               })}
@@ -77,11 +109,17 @@ const Feed = () => {
         <FullWrap>
           <Wrapper>
             <Container>
-              <Platforms>PC</Platforms>
-              <Platforms>Playstation 5</Platforms>
-              <Platforms>Xbox Series X/S</Platforms>
-              <Platforms>Playstation 4</Platforms>
-              <Platforms>Xbox One</Platforms>
+              <Platforms onClick={() => nav("/pc")}>PC</Platforms>
+              <Platforms onClick={() => nav("/psfive")}>
+                Playstation 5
+              </Platforms>
+              <Platforms onClick={() => nav("/xboxseries")}>
+                Xbox Series X/S
+              </Platforms>
+              <Platforms onClick={() => nav("/psfour")}>
+                Playstation 4
+              </Platforms>
+              <Platforms onClick={() => nav("/xboxone")}>Xbox One</Platforms>
             </Container>
           </Wrapper>
           <GeneralInfo>
