@@ -19,8 +19,9 @@ const Modal = ({ onClose, user, setUser }) => {
       .catch((err) => {
         console.log(err.stack, err.message);
       });
-  }, [setUser]);
+  }, [message]);
 
+  //posting comments to our collection in mongodb.
   const handleComment = (e) => {
     e.preventDefault();
     fetch("/user", {
