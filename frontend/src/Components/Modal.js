@@ -10,7 +10,7 @@ const Modal = ({ onClose, user, setUser }) => {
 
   useEffect(() => {
     // console.log("Fetching comments");
-    fetch("/user")
+    fetch("/user/comment")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -19,12 +19,12 @@ const Modal = ({ onClose, user, setUser }) => {
       .catch((err) => {
         console.log(err.stack, err.message);
       });
-  }, [message]);
+  }, [post]);
 
   //posting comments to our collection in mongodb.
   const handleComment = (e) => {
     e.preventDefault();
-    fetch("/user", {
+    fetch("/user/comment", {
       method: "POST",
       body: JSON.stringify({
         comment: post,
@@ -40,7 +40,7 @@ const Modal = ({ onClose, user, setUser }) => {
     });
     e.target.reset();
     setCount(300);
-    window.alert("You Successfully Commented");
+    setPost("");
   };
 
   if (!message) {

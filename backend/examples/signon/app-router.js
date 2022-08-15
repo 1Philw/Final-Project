@@ -36,6 +36,7 @@ const {
   getUser,
   addLike,
   removeLike,
+  removeComment,
 } = require("../../Handlers/mongodb");
 // const { putNotes, deleteNotes, getNotes } = require("../../handlers");
 const RAWG_TOKEN = process.env.RAWG_TOKEN;
@@ -265,18 +266,21 @@ app.get(
   }
 );
 
-app.get(`https://api.rawg.io/api/games/{id}?key=${RAWG_TOKEN}`, (req, res) => {
+app.get(`https://api.rawg.io/api/games/:id?key=${RAWG_TOKEN}`, (req, res) => {
   return res.status(200).json({ status: 200, message: "Success" });
 });
 
-app.post("/user", postComment);
-app.get("/user", findComment);
+app.post("/user/comment", postComment);
+app.get("/user/comment", findComment);
+app.delete("/user/comment", removeComment);
+
 app.get("/user/:id", getUser);
+
 app.patch("/favorite/:id", addFavorite);
 app.patch("/favorite/remove/:id", removeFavorite);
+
 app.patch("/like/:id", addLike);
 app.patch("/like/remove/:id", removeLike);
-// app.delete('/user', ...)
 
 app.get("*", (req, res) => {
   return res.status(404).json({ status: 404, message: "No endpoint found." });

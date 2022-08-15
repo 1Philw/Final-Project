@@ -3,10 +3,10 @@ import { HomepageContext } from "./HomepageContext";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import FeedIcons from "./FeedIcons";
+import { NavLink } from "react-router-dom";
 
 const Feed = () => {
   const { feed, setFeed, games, setGames } = useContext(HomepageContext);
-  // const [details, setDetails] = useState(null);
 
   let nav = useNavigate();
 
@@ -37,31 +37,6 @@ const Feed = () => {
     fetchFunc();
   }, [setUser]);
 
-  // const id = games.results.map((ids) => ids.id)
-  // console.log(id)
-
-  // const handleGameDetails = async () => {
-  //   try {
-  //     const res = await fetch(
-  //       `https://api.rawg.io/api/games/${}?key=2e06ccaa17a44ac6bd7b391b815b90c1`,
-  //       {
-  //         method: "GET",
-  //         credentials: "include",
-  //         headers: {
-  //           Accept: "application/json",
-  //           "Content-Type": "application/json",
-  //           "Access-Control-Allow-Credentials": true,
-  //         },
-  //       }
-  //     );
-  //     const data = await res.json();
-  //     console.log({ data });
-  //     setDetails(data);
-  //   } catch (err) {
-  //     console.log(err.stack, err.message);
-  //   }
-  // };
-
   if (!user) {
     return (
       <>
@@ -87,9 +62,9 @@ const Feed = () => {
           <GamesWrapper>
             <Gamelists>
               {games.results.map((game, index) => {
-                // console.log(game);
+                // console.log(game.id);
                 return (
-                  <Result key={index}>
+                  <Result key={index} to={`/gamedetails/${game.id}`}>
                     {game.name}
                     <Img src={game.background_image} />
                   </Result>
@@ -130,13 +105,15 @@ const Feed = () => {
               {games.results.map((game, index) => {
                 // console.log(game);
                 return (
-                  <Result key={index}>
-                    {game.name} <Img src={game.background_image} />
+                  <ResultWrapper key={index}>
+                    <Result to={`/gamedetails/${game.id}`}>
+                      {game.name} <Img src={game.background_image} />
+                    </Result>
                     <FeedIcons
                       gameName={game.name}
                       gameImg={game.background_image}
                     />
-                  </Result>
+                  </ResultWrapper>
                 );
               })}
             </Gamelists>
@@ -216,7 +193,15 @@ const GamesWrapper = styled.div`
   justify-content: center;
 `;
 
-const Result = styled.div`
+const Result = styled(NavLink)`
+  display: flex;
+  flex-flow: column;
+  margin-top: 10px;
+  gap: 16px;
+  text-decoration: none;
+`;
+
+const ResultWrapper = styled.div`
   display: flex;
   flex-flow: column;
   margin-top: 10px;

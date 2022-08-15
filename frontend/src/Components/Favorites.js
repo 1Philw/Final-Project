@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Favorites = ({ user, usersGames }) => {
-  const [usersFavorites, setUsersFavorites] = useState(null);
+  const [usersFavorites, setUsersFavorites] = useState([]);
 
   useEffect(() => {
     const fetchFavs = async () => {
@@ -18,7 +18,7 @@ const Favorites = ({ user, usersGames }) => {
         });
         const data = await res.json();
         console.log(data);
-        setUsersFavorites(data.data);
+        setUsersFavorites(data.data.favorites);
       } catch (err) {
         console.log(err.stack, err.message);
       }
@@ -26,15 +26,11 @@ const Favorites = ({ user, usersGames }) => {
     fetchFavs();
   }, []);
 
-  if (usersFavorites === null) {
-    return <>Loading</>;
-  }
-
-  if (!usersFavorites) {
+  if (!usersFavorites.length) {
     return (
       <>
         <FullWrap>
-          <div>You have no favorites.</div>
+          <Empty>You have no favorites.</Empty>
         </FullWrap>
       </>
     );
@@ -42,9 +38,9 @@ const Favorites = ({ user, usersGames }) => {
     return (
       <>
         <FullWrap>
-          {usersFavorites.favorites.map((fav) => {
+          {usersFavorites.map((fav, index) => {
             return (
-              <Favs key={fav.id}>
+              <Favs key={index}>
                 {fav.name} <Img src={fav.image} />
               </Favs>
             );
@@ -81,6 +77,10 @@ const Img = styled.img`
     cursor: pointer;
     transform: scale(1.1);
   }
+`;
+
+const Empty = styled.div`
+  margin-top: 50px;
 `;
 
 export default Favorites;

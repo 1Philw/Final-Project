@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Account from "./Account";
 import Favorites from "./Favorites";
+import GameDetails from "./GameDetails";
 import GameNews from "./GameNews";
 import GlobalStyles from "./GlobalStyles";
 import Header from "./Header";
@@ -68,6 +69,7 @@ const App = () => {
           <Route exact path="/xboxseries" element={<XboxSeries />} />
           <Route exact path="/psfour" element={<PsFour />} />
           <Route exact path="/xboxone" element={<XboxOne />} />
+          <Route exact path="/gamedetails/:id" element={<GameDetails />} />
         </Routes>
       </Router>
     </>

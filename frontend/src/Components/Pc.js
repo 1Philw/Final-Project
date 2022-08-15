@@ -39,7 +39,10 @@ const FullWrap = styled.div`
   width: 100vw;
 `;
 
-const Img = styled.img``;
+const Img = styled.img`
+  width: 100vw;
+  height: 60vh;
+`;
 
 const Container = styled.div`
   display: flex;

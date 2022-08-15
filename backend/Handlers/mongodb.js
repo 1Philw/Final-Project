@@ -1,6 +1,6 @@
 "use strict";
 const { parse } = require("dotenv");
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 
 require("dotenv").config();
 const { MONGO_URI } = process.env;
@@ -71,31 +71,31 @@ const getUser = async (req, res) => {
   }
 };
 
-const updateUser = async (req, res) => {
-  const client = new MongoClient(MONGO_URI, options);
-  try {
-    await client.connect();
+// const updateUser = async (req, res) => {
+//   const client = new MongoClient(MONGO_URI, options);
+//   try {
+//     await client.connect();
 
-    const db = client.db("final");
-    console.log("Connected!");
+//     const db = client.db("final");
+//     console.log("Connected!");
 
-    const result = await db.collection("users").updateOne();
-    console.log("Success");
-    return result
-      ? res
-          .status(200)
-          .json({ status: 200, data: req.body, message: "User Updated" })
-      : res
-          .status(400)
-          .json({ status: 400, message: "Error please try again." });
-  } catch (err) {
-    res.status(500).json({ status: 500, data: req.body, message: err.message });
-    console.log(err.stack);
-  } finally {
-    client.close();
-    console.log("Disconnected");
-  }
-};
+//     const result = await db.collection("users").updateOne();
+//     console.log("Success");
+//     return result
+//       ? res
+//           .status(200)
+//           .json({ status: 200, data: req.body, message: "User Updated" })
+//       : res
+//           .status(400)
+//           .json({ status: 400, message: "Error please try again." });
+//   } catch (err) {
+//     res.status(500).json({ status: 500, data: req.body, message: err.message });
+//     console.log(err.stack);
+//   } finally {
+//     client.close();
+//     console.log("Disconnected");
+//   }
+// };
 
 const postComment = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
@@ -144,6 +144,44 @@ const findComment = async (req, res) => {
       : res
           .status(400)
           .json({ status: 400, message: "Error please try again." });
+  } catch (err) {
+    res.status(500).json({ status: 500, data: req.body, message: err.message });
+    console.log(err.stack);
+  } finally {
+    client.close();
+    console.log("Disconnected");
+  }
+};
+
+const removeComment = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const _id = req.body._id;
+  try {
+    await client.connect();
+
+    const db = client.db("final");
+    console.log("Connected!");
+
+    const result = await db.collection("comments").deleteOne({ _id: _id });
+
+    if (result.deletedCount > 0) {
+      return res
+        .status(200)
+        .json({ status: 200, message: "Succesfully deleted comment." });
+    } else {
+      return res
+        .status(400)
+        .json({ status: 400, message: "Error please try again." });
+    }
+    // return result
+    //   ? res.status(200).json({
+    //       status: 200,
+    //       data: result,
+    //       message: "Succesfully deleted comment.",
+    //     })
+    //   : res
+    //       .status(400)
+    //       .json({ status: 400, message: "Error please try again." });
   } catch (err) {
     res.status(500).json({ status: 500, data: req.body, message: err.message });
     console.log(err.stack);
@@ -322,4 +360,5 @@ module.exports = {
   getUser,
   addLike,
   removeLike,
+  removeComment,
 };

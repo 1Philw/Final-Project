@@ -25,8 +25,12 @@ export const AccountProvider = ({ children }) => {
         setUser(data.user);
         setUsersGames(data.body);
       } catch (err) {
-        setUserStatus("Error");
-        console.log(err.stack, err.message);
+        switch (err.name) {
+          case `SyntaxError`:
+            break;
+          default:
+            setUserStatus("Error");
+        }
       }
     };
     fetchFunc();
@@ -35,10 +39,6 @@ export const AccountProvider = ({ children }) => {
   if (userStatus === "Error") {
     return <Error />;
   }
-
-  // if (user === null) {
-  //   return <>Loading</>;
-  // }
 
   return (
     <AccountContext.Provider

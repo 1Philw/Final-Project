@@ -1,42 +1,24 @@
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { FiMessageCircle } from "react-icons/fi";
 import { AiOutlineStar, AiOutlineLike } from "react-icons/ai";
 import styled from "styled-components";
 import Modal from "./Modal";
+import { AccountContext } from "./AccountContext";
+import { FavsContext } from "./FavsContext";
 
 const FeedIcons = ({ gameName, gameImg }) => {
+  const { user, setUser } = useContext(AccountContext);
+  const { favorites, favoritesChanged } = useContext(FavsContext);
   const [isFavorited, setIsFavorited] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  // Fetching instead of using Context due to backend/error.
-  const [user, setUser] = useState(null);
-  const [usersGames, setUsersGames] = useState({});
-  // Fetch for gathering all needed data regarding signed in user.
-  useEffect(() => {
-    const fetchFunc = async () => {
-      try {
-        const res = await fetch("http://localhost:8000/account", {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": true,
-          },
-        });
-        const data = await res.json();
-        // console.log({ data });
-        setUser(data.user);
-        setUsersGames(data.body);
-        setIsFavorited(
-          data.user.favorites.some((favorite) => favorite.name === gameName)
-        );
-      } catch (err) {
-        console.log(err.stack, err.message);
-      }
-    };
-    fetchFunc();
-  }, []);
 
+  useEffect(() => {
+    if (favorites) {
+      setIsFavorited(favorites.some((favorite) => favorite.name === gameName));
+    }
+  }, [favorites]);
+
+  //Handler for favoriting a game/adding it to favorites and removing it from favorites.
   const handleFavs = async () => {
     try {
       if (!isFavorited) {
@@ -72,8 +54,10 @@ const FeedIcons = ({ gameName, gameImg }) => {
       console.log(err.stack, err.message);
     }
     setIsFavorited(!isFavorited);
+    favoritesChanged();
   };
 
+  // Handler for liking a game and unliking it.
   const handleLikes = async () => {
     try {
       if (!isLiked) {
@@ -115,10 +99,12 @@ const FeedIcons = ({ gameName, gameImg }) => {
 
   const [chatToggle, setChatToggle] = useState(false);
 
+  //Handler for toggling Chat icon color on and off.
   const handleToggleChat = (e) => {
     setChatToggle(!chatToggle);
   };
 
+  //Handler for toggling Modal open and close.
   const handleToggleModal = (e) => {
     setIsOpen(!isOpen);
   };
