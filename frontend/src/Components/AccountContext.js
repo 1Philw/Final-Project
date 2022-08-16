@@ -7,7 +7,8 @@ export const AccountProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [usersGames, setUsersGames] = useState({});
   const [userStatus, setUserStatus] = useState("");
-  //Fetch for gathering all needed data regarding signed in user.
+
+  //Fetch for gathering all needed data regarding signed in user for steam api.
   useEffect(() => {
     const fetchFunc = async () => {
       try {
@@ -21,7 +22,6 @@ export const AccountProvider = ({ children }) => {
           },
         });
         const data = await res.json();
-        console.log({ data });
         setUser(data.user);
         setUsersGames(data.body);
       } catch (err) {

@@ -9,16 +9,7 @@ const RawgSearchBar = () => {
 
   const nav = useNavigate();
 
-  // const gamesmap = usersGames.games.map((result) => {
-  //   return result;
-  // });
-
-  // const matchedGame = gamesmap.filter((games) => {
-  //   return games.name.toLowerCase().includes(value.toLowerCase());
-  // });
-
   const handleSelect = (id) => {
-    console.log(id);
     nav(`/game/${id}`);
   };
 
@@ -38,7 +29,6 @@ const RawgSearchBar = () => {
 
       <Ul style={value.length < 2 ? { display: "none" } : { display: "block" }}>
         {matchedGame.map((suggestion, index) => {
-          // console.log(suggestion, "Hello");
           return (
             <Li key={index} onClick={() => handleSelect(suggestion.appid)}>
               <span>

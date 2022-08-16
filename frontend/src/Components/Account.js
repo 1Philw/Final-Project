@@ -1,18 +1,22 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AccountContext } from "./AccountContext";
+import Logo from "./Logo";
 
-const Account = ({ user, usersGames }) => {
+const Account = () => {
+  const { user, usersGames } = useContext(AccountContext);
   let nav = useNavigate();
 
   if (!user || !usersGames) {
-    return <>Loading</>;
+    return (
+      <>
+        <Logo />
+      </>
+    );
   }
 
-  console.log(user);
-  console.log(usersGames);
-
   const handleSelect = (id) => {
-    console.log(id);
     nav(`/game/${id}`);
   };
 

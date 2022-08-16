@@ -1,41 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { HomepageContext } from "./HomepageContext";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import FeedIcons from "./FeedIcons";
 import { NavLink } from "react-router-dom";
+import { AccountContext } from "./AccountContext";
 
 const Feed = () => {
-  const { feed, setFeed, games, setGames } = useContext(HomepageContext);
+  const { games } = useContext(HomepageContext);
+  const { user } = useContext(AccountContext);
 
   let nav = useNavigate();
-
-  // Fetching instead of using Context due to backend/error.
-  const [user, setUser] = useState(null);
-  const [usersGames, setUsersGames] = useState({});
-  //Fetch for gathering all needed data regarding signed in user.
-  useEffect(() => {
-    const fetchFunc = async () => {
-      try {
-        const res = await fetch("http://localhost:8000/account", {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": true,
-          },
-        });
-        const data = await res.json();
-        // console.log({ data });
-        setUser(data.user);
-        setUsersGames(data.body);
-      } catch (err) {
-        console.log(err.stack, err.message);
-      }
-    };
-    fetchFunc();
-  }, [setUser]);
 
   if (!user) {
     return (
@@ -62,7 +37,6 @@ const Feed = () => {
           <GamesWrapper>
             <Gamelists>
               {games.results.map((game, index) => {
-                // console.log(game.id);
                 return (
                   <Result key={index} to={`/gamedetails/${game.id}`}>
                     {game.name}
@@ -103,7 +77,6 @@ const Feed = () => {
           <GamesWrapper>
             <Gamelists>
               {games.results.map((game, index) => {
-                // console.log(game);
                 return (
                   <ResultWrapper key={index}>
                     <Result to={`/gamedetails/${game.id}`}>

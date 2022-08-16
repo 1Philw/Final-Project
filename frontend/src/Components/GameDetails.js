@@ -1,23 +1,21 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import Logo from "./Logo";
 
-const { useContext, useState, useEffect } = require("react");
-const { HomepageContext } = require("./HomepageContext");
+const client_key = process.env.REACT_APP_KEY;
 
 const GameDetails = () => {
-  const { games } = useContext(HomepageContext);
   const [details, setDetails] = useState(null);
-  // const id = games.results.map((ids) => ids.id);
-  // console.log(id);
 
-  const nav = useNavigate();
   const { id } = useParams();
 
+  // Fetch for details of games by the games id.
   useEffect(() => {
     const fetchFunc = async () => {
       try {
         const res = await fetch(
-          `https://api.rawg.io/api/games/${id}?key=2e06ccaa17a44ac6bd7b391b815b90c1`,
+          `https://api.rawg.io/api/games/${id}?key=${client_key}`,
           {
             method: "GET",
             headers: {
@@ -36,10 +34,12 @@ const GameDetails = () => {
   }, []);
 
   if (details === null) {
-    return <>Loading</>;
+    return (
+      <>
+        <Logo />
+      </>
+    );
   }
-
-  console.log(details);
 
   return (
     <>
@@ -56,12 +56,16 @@ const GameDetails = () => {
           <RatingsContainer>
             <Esrb>
               <div>Rating {details.rating}</div>
-              <div>Rated: {details.esrb_rating.name}</div>
+              {details.esrb_rating !== null ? (
+                <div>Rated: {details.esrb_rating.name}</div>
+              ) : (
+                <div>No esrb rating.</div>
+              )}
               <div>Released: {details.released}</div>
             </Esrb>
-            {details.ratings.map((rated) => {
+            {details.ratings.map((rated, index) => {
               return (
-                <Ratings>
+                <Ratings key={index}>
                   <Title>{rated.title}:</Title>
                   <Count>Count {rated.count}</Count>
                   <div>{rated.percent}%</div>

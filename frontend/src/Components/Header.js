@@ -2,8 +2,11 @@ import styled from "styled-components";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
+import { useContext } from "react";
+import { AccountContext } from "./AccountContext";
 
-const Header = ({ user, usersGames = [] }) => {
+const Header = () => {
+  const { user } = useContext(AccountContext);
   const nav = useNavigate();
 
   if (!user) {
@@ -28,7 +31,7 @@ const Header = ({ user, usersGames = [] }) => {
             <Auth href="http://localhost:8000/logout">
               <FaSignOutAlt /> Sign-out
             </Auth>
-            <SearchBar usersGames={usersGames} user={user} />
+            <SearchBar />
             <Button onClick={() => nav("/account")}>Profile</Button>
             <Button onClick={() => nav("/favorites")}>Favorites</Button>
           </Wrapper>

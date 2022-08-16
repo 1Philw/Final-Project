@@ -8,7 +8,6 @@ const Pc = () => {
   const data = feed.results.filter((obj) => {
     return obj.name === "PC";
   });
-  console.log(data);
 
   return (
     <>

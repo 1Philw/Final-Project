@@ -76,6 +76,8 @@ passport.use(
         // represent the logged-in user.  In a typical application, you would want
         // to associate the Steam account with a user record in your database,
         // and return that user instead.
+
+        // Below code is our handler for adding a user strickly if the account does not exist yet it is linked with the steam api authentication.
         let result = null;
         const client = new MongoClient(MONGO_URI, options);
         try {
@@ -253,32 +255,36 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Endpoints.
-//get rawg api plateforms data.
+// RAWG api endpoint for getting list of gaming platforms.
 app.get(`https://api.rawg.io/api/platforms?key=${RAWG_TOKEN}`, (req, res) => {
   return res.status(200).json({ status: 200, message: "Success" });
 });
 
-// get rawg api games data.
+// RAWG api endpoint for getting list of games.
 app.get(
   `https://api.rawg.io/api/games?key=${RAWG_TOKEN}&dates=2019-09-01,2019-09-30&platforms=18,1,7`,
   (req, res) => {
     return res.status(200).json({ status: 200, message: "Success" });
   }
 );
-
+// RAWG api endpoint for game details by id.
 app.get(`https://api.rawg.io/api/games/:id?key=${RAWG_TOKEN}`, (req, res) => {
   return res.status(200).json({ status: 200, message: "Success" });
 });
 
+// Comments endpoints.
 app.post("/user/comment", postComment);
 app.get("/user/comment", findComment);
 app.delete("/user/comment", removeComment);
 
+// User endpoint.
 app.get("/user/:id", getUser);
 
+// Favorites endpoints.
 app.patch("/favorite/:id", addFavorite);
 app.patch("/favorite/remove/:id", removeFavorite);
 
+// Likes endpoints.
 app.patch("/like/:id", addLike);
 app.patch("/like/remove/:id", removeLike);
 

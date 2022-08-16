@@ -1,50 +1,28 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Error from "./Error";
 import FeedIcons from "./FeedIcons";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { AccountContext } from "./AccountContext";
+import Logo from "./Logo";
+
+const client_key = process.env.REACT_APP_KEY;
 
 const PageThree = () => {
+  const { user } = useContext(AccountContext);
   const [gamesThree, setGamesThree] = useState(null);
   const [load, setLoad] = useState("Loading");
   let nav = useNavigate();
 
-  // Fetching instead of using Context due to backend/error.
-  const [user, setUser] = useState(null);
-  const [usersGames, setUsersGames] = useState({});
-  //Fetch for gathering all needed data regarding signed in user.
-  useEffect(() => {
-    const fetchFunc = async () => {
-      try {
-        const res = await fetch("http://localhost:8000/account", {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": true,
-          },
-        });
-        const data = await res.json();
-        // console.log({ data });
-        setUser(data.user);
-        setUsersGames(data.body);
-      } catch (err) {
-        console.log(err.stack, err.message);
-      }
-    };
-    fetchFunc();
-  }, [setUser]);
-
+  // Fetch for page three of games from api.
   useEffect(() => {
     const fetchFuncTwo = async () => {
       try {
         const res = await fetch(
-          "https://api.rawg.io/api/games?dates=2019-09-01%2C2022&key=2e06ccaa17a44ac6bd7b391b815b90c1&page=3"
+          `https://api.rawg.io/api/games?dates=2019-09-01%2C2022&key=${client_key}&page=3`
         );
         const pageThree = await res.json();
-        // console.log(pageThree);
         setGamesThree(pageThree);
         setLoad("Idle");
       } catch (err) {
@@ -59,7 +37,11 @@ const PageThree = () => {
   }
 
   if (gamesThree === null) {
-    return <>Loading</>;
+    return (
+      <>
+        <Logo />
+      </>
+    );
   }
 
   if (!user) {
@@ -87,7 +69,6 @@ const PageThree = () => {
           <GamesWrapper>
             <Gamelists>
               {gamesThree.results.map((games, index) => {
-                // console.log(games);
                 return (
                   <Result key={index} to={`/gamedetails/${games.id}`}>
                     {games.name} <Img src={games.background_image} />
@@ -127,7 +108,6 @@ const PageThree = () => {
           <GamesWrapper>
             <Gamelists>
               {gamesThree.results.map((games, index) => {
-                // console.log(games);
                 return (
                   <ResultWrapper key={index}>
                     <Result to={`/gamedetails/${games.id}`}>

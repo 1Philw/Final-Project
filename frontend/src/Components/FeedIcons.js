@@ -22,6 +22,7 @@ const FeedIcons = ({ gameName, gameImg }) => {
   const handleFavs = async () => {
     try {
       if (!isFavorited) {
+        // Fetch that adds a favorite for current user by id.
         await fetch(`/favorite/${user.id}`, {
           method: "PATCH",
           body: JSON.stringify({
@@ -36,6 +37,7 @@ const FeedIcons = ({ gameName, gameImg }) => {
           },
         });
       } else {
+        // Fetch that removes a favorite for current user by id.
         await fetch(`/favorite/remove/${user.id}`, {
           method: "PATCH",
           body: JSON.stringify({
@@ -61,6 +63,7 @@ const FeedIcons = ({ gameName, gameImg }) => {
   const handleLikes = async () => {
     try {
       if (!isLiked) {
+        // Fetch that adds like for curret user by id.
         await fetch(`/like/${user.id}`, {
           method: "PATCH",
           body: JSON.stringify({
@@ -75,6 +78,7 @@ const FeedIcons = ({ gameName, gameImg }) => {
           },
         });
       } else {
+        // Fetch that removes like for current user by id.
         await fetch(`/like/remove/${user.id}`, {
           method: "PATCH",
           body: JSON.stringify({

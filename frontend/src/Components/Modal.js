@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4, v4 } from "uuid";
+import Logo from "./Logo";
 
-const Modal = ({ onClose, user, setUser }) => {
+const Modal = ({ onClose, user }) => {
   const [count, setCount] = useState(300);
 
   const [post, setPost] = useState("");
   const [message, setMessage] = useState(null);
 
+  // Fetching logged in users comments.
   useEffect(() => {
-    // console.log("Fetching comments");
     fetch("/user/comment")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setMessage(data.data);
       })
       .catch((err) => {
@@ -21,7 +21,7 @@ const Modal = ({ onClose, user, setUser }) => {
       });
   }, [post]);
 
-  //posting comments to our collection in mongodb.
+  //Posting comments to our collection in mongodb.
   const handleComment = (e) => {
     e.preventDefault();
     fetch("/user/comment", {
@@ -44,7 +44,11 @@ const Modal = ({ onClose, user, setUser }) => {
   };
 
   if (!message) {
-    return <>Loading</>;
+    return (
+      <>
+        <Logo />
+      </>
+    );
   }
 
   return (

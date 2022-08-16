@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
+import { AccountContext } from "./AccountContext";
 
-const Favorites = ({ user, usersGames }) => {
+const Favorites = () => {
+  const { user } = useContext(AccountContext);
   const [usersFavorites, setUsersFavorites] = useState([]);
 
+  // Fetch for current user data by id.
   useEffect(() => {
     const fetchFavs = async () => {
       try {
@@ -17,7 +20,6 @@ const Favorites = ({ user, usersGames }) => {
           },
         });
         const data = await res.json();
-        console.log(data);
         setUsersFavorites(data.data.favorites);
       } catch (err) {
         console.log(err.stack, err.message);

@@ -8,7 +8,7 @@ const PsFive = () => {
   const data = feed.results.filter((obj) => {
     return obj.name === "PlayStation 5";
   });
-  console.log(data);
+
   return (
     <>
       <FullWrap>

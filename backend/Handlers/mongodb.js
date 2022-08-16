@@ -13,6 +13,7 @@ const options = {
 // use this package to generate unique ids: https://www.npmjs.com/package/uuid
 const { v4: uuidv4 } = require("uuid");
 
+// Handler for adding a user.
 const addUser = async (req, res) => {
   console.log(req.body);
   const client = new MongoClient(MONGO_URI, options);
@@ -42,6 +43,7 @@ const addUser = async (req, res) => {
   }
 };
 
+// Handler for getting a user and its data.
 const getUser = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const _id = req.params.id;
@@ -97,6 +99,7 @@ const getUser = async (req, res) => {
 //   }
 // };
 
+// Handler for posting a comment to our database.
 const postComment = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   try {
@@ -125,6 +128,7 @@ const postComment = async (req, res) => {
   }
 };
 
+// Handler for finding a comment/comments from our comments collection in database.
 const findComment = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   try {
@@ -153,6 +157,7 @@ const findComment = async (req, res) => {
   }
 };
 
+// Handler for removing a comment from our collecton/database.
 const removeComment = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const _id = req.body._id;
@@ -173,15 +178,6 @@ const removeComment = async (req, res) => {
         .status(400)
         .json({ status: 400, message: "Error please try again." });
     }
-    // return result
-    //   ? res.status(200).json({
-    //       status: 200,
-    //       data: result,
-    //       message: "Succesfully deleted comment.",
-    //     })
-    //   : res
-    //       .status(400)
-    //       .json({ status: 400, message: "Error please try again." });
   } catch (err) {
     res.status(500).json({ status: 500, data: req.body, message: err.message });
     console.log(err.stack);
@@ -191,6 +187,7 @@ const removeComment = async (req, res) => {
   }
 };
 
+// Handler for adding a favorite for current user to our database.
 const addFavorite = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const _id = req.params.id;
@@ -231,6 +228,7 @@ const addFavorite = async (req, res) => {
   }
 };
 
+// Hanlder for removing a favorite for current user from database.
 const removeFavorite = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const _id = req.params.id;
@@ -271,6 +269,7 @@ const removeFavorite = async (req, res) => {
   }
 };
 
+// Handler for adding a like for current user to database.
 const addLike = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const _id = req.params.id;
@@ -311,6 +310,7 @@ const addLike = async (req, res) => {
   }
 };
 
+// Handler for removing a like for current user from database.
 const removeLike = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const _id = req.params.id;

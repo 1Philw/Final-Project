@@ -1,5 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import Error from "./Error";
+import Logo from "./Logo";
+
+const client_key = process.env.REACT_APP_KEY;
 
 export const HomepageContext = createContext();
 
@@ -8,15 +11,14 @@ export const HomepageProvider = ({ children }) => {
   const [feedStatus, setFeedStatus] = useState("Loading");
   const [games, setGames] = useState(null);
   const [gamesStatus, setGamesStatus] = useState("Loading");
-  // Fetch for getting data regarding all of my gaming plateforms.
+  // Fetch for getting data regarding all of my gaming plateforms from rawg api.
   useEffect(() => {
     const fetchFunc = async () => {
       try {
         const res = await fetch(
-          "https://api.rawg.io/api/platforms?key=2e06ccaa17a44ac6bd7b391b815b90c1"
+          `https://api.rawg.io/api/platforms?key=${client_key}`
         );
         const data = await res.json();
-        console.log(data);
         setFeed(data);
         setFeedStatus("Idle");
       } catch (err) {
@@ -30,10 +32,9 @@ export const HomepageProvider = ({ children }) => {
     const fetchGames = async () => {
       try {
         const res = await fetch(
-          "https://api.rawg.io/api/games?key=2e06ccaa17a44ac6bd7b391b815b90c1&dates=2019-09-01,2022"
+          `https://api.rawg.io/api/games?key=${client_key}&dates=2019-09-01,2022`
         );
         const data = await res.json();
-        console.log(data);
         setGames(data);
         setGamesStatus("Idle");
       } catch (err) {
@@ -48,7 +49,11 @@ export const HomepageProvider = ({ children }) => {
   }
 
   if (feed === null || games === null) {
-    return <>Loading</>;
+    return (
+      <>
+        <Logo />
+      </>
+    );
   }
 
   return (

@@ -8,12 +8,12 @@ const GameNews = () => {
   const [load, setLoad] = useState("Loading");
 
   const { id } = useParams();
+  // Fetch for a game by their name and id.
   useEffect(() => {
     const fetchFunc = async () => {
       try {
         const res = await fetch(`/game/:name/${id}`);
         const feed = await res.json();
-        console.log(feed);
         setNews(feed.body);
         setLoad("Idle");
       } catch (err) {
@@ -36,7 +36,6 @@ const GameNews = () => {
       <Wrapper>
         <div>News</div>
         {news.map((appNews, index) => {
-          console.log(appNews, "Heysss");
           return (
             <Container>
               <Title key={index}>{appNews.title}</Title>

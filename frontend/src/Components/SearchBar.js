@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AccountContext } from "./AccountContext";
 
-const SearchBar = ({ usersGames, user }) => {
+const SearchBar = () => {
+  const { usersGames } = useContext(AccountContext);
   const [value, setValue] = useState("");
 
   const nav = useNavigate();
-  console.log(usersGames);
 
   const gamesmap = usersGames.games.map((result) => {
     return result;
@@ -16,12 +17,7 @@ const SearchBar = ({ usersGames, user }) => {
     return games.name.toLowerCase().includes(value.toLowerCase());
   });
 
-  const id = gamesmap.map((ids) => {
-    return ids.appid;
-  });
-
   const handleSelect = (id) => {
-    console.log(id);
     nav(`/game/${id}`);
   };
 
@@ -36,7 +32,6 @@ const SearchBar = ({ usersGames, user }) => {
 
       <Ul style={value.length < 2 ? { display: "none" } : { display: "block" }}>
         {matchedGame.map((suggestion, index) => {
-          // console.log(suggestion, "Hello");
           return (
             <Li key={index} onClick={() => handleSelect(suggestion.appid)}>
               <span>

@@ -7,6 +7,7 @@ export const FavsProvider = ({ children }) => {
   const { user } = useContext(AccountContext);
   const [favorites, setFavorites] = useState(null);
 
+  //Fetch to get our current users favorites by id.
   const favoritesChanged = async () => {
     try {
       const result = await fetch(`/user/${user.id}`, {
@@ -19,13 +20,12 @@ export const FavsProvider = ({ children }) => {
         },
       });
       const resultData = await result.json();
-      console.log(resultData);
       setFavorites(resultData.data.favorites);
     } catch (err) {
       console.log(err.stack, err.message);
     }
   };
-
+  //Fetch to get our current user data by id.
   useEffect(() => {
     const fetchFunc = async () => {
       try {
@@ -39,7 +39,6 @@ export const FavsProvider = ({ children }) => {
           },
         });
         const resultData = await result.json();
-        console.log(resultData);
         setFavorites(resultData.data.favorites);
       } catch (err) {
         console.log(err.stack, err.message);
@@ -49,10 +48,6 @@ export const FavsProvider = ({ children }) => {
       fetchFunc();
     }
   }, [user]);
-
-  // if (!favorites) {
-  //   return <>Loading</>;
-  // }
 
   return (
     <FavsContext.Provider
