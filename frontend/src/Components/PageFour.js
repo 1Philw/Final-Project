@@ -3,6 +3,7 @@ import Error from "./Error";
 import FeedIcons from "./FeedIcons";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const PageFour = () => {
   const [gamesFour, setGamesFour] = useState(null);
@@ -66,7 +67,7 @@ const PageFour = () => {
         <FullWrap>
           <Wrapper>
             <Container>
-            <Platforms onClick={() => nav("/pc")}>PC</Platforms>
+              <Platforms onClick={() => nav("/pc")}>PC</Platforms>
               <Platforms onClick={() => nav("/psfive")}>
                 Playstation 5
               </Platforms>
@@ -87,7 +88,7 @@ const PageFour = () => {
               {gamesFour.results.map((games, index) => {
                 // console.log(games);
                 return (
-                  <Result key={index}>
+                  <Result key={index} to={`/gamedetails/${games.id}`}>
                     {games.name} <Img src={games.background_image} />
                   </Result>
                 );
@@ -127,10 +128,15 @@ const PageFour = () => {
               {gamesFour.results.map((games, index) => {
                 // console.log(games);
                 return (
-                  <Result key={index}>
-                    {games.name} <Img src={games.background_image} />
-                    <FeedIcons />
-                  </Result>
+                  <ResultWrapper key={index}>
+                    <Result to={`/gamedetails/${games.id}`}>
+                      {games.name} <Img src={games.background_image} />
+                    </Result>
+                    <FeedIcons
+                      gameName={games.name}
+                      gameImg={games.background_image}
+                    />
+                  </ResultWrapper>
                 );
               })}
             </Gamelists>
@@ -183,6 +189,7 @@ const Platforms = styled.button`
 const Img = styled.img`
   width: 250px;
   height: 250px;
+  border-radius: 12px;
   position: relative;
   transition: transform 0.2s;
   :hover {
@@ -210,11 +217,19 @@ const GamesWrapper = styled.div`
   justify-content: center;
 `;
 
-const Result = styled.div`
+const ResultWrapper = styled.div`
   display: flex;
   flex-flow: column;
   margin-top: 10px;
   gap: 16px;
+`;
+
+const Result = styled(NavLink)`
+  display: flex;
+  flex-flow: column;
+  margin-top: 10px;
+  gap: 16px;
+  text-decoration: none;
 `;
 
 const Title = styled.div`

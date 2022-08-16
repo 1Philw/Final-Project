@@ -166,6 +166,7 @@ const Platforms = styled.button`
 const Img = styled.img`
   width: 250px;
   height: 250px;
+  border-radius: 12px;
   position: relative;
   transition: transform 0.2s;
   :hover {

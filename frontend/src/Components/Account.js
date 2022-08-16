@@ -65,7 +65,7 @@ const OwnedGames = styled.div`
 `;
 
 const GameDiv = styled.div`
-  border-bottom: 1px solid #ff6700;
+  border-bottom: 1px solid #5bccf6;
   border-radius: 8px;
   cursor: pointer;
   /* #ff6700 */

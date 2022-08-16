@@ -71,12 +71,8 @@ const Favs = styled.div`
 const Img = styled.img`
   width: 250px;
   height: 250px;
-  position: relative;
-  transition: transform 0.2s;
-  :hover {
-    cursor: pointer;
-    transform: scale(1.1);
-  }
+  border-radius: 12px;
+  box-shadow: 0 0 5px 0px #ff6700;
 `;
 
 const Empty = styled.div`
